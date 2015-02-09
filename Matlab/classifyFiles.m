@@ -1,7 +1,7 @@
-function emotionvoices = classifyFiles
+function emotionvoices = classifyFiles(soundDir)
 
 % set path differently? 
-emotionvoices = dir('../Stimuli/Emotion/Emotion_normalized/*.wav');
+emotionvoices = dir([soundDir '*.wav']);
 
 %training = (emotionsounds.name(2)=('1'|'3'|'7'|'8'))
 % speaker = s1:8;
@@ -27,4 +27,7 @@ for iFile = 1:nFile
     end 
         
 end
+
+
+    
 
