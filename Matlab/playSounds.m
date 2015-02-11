@@ -1,5 +1,5 @@
 soundDir = '../Stimuli/Emotion/Emotion_normalized/';
-files = classifyFiles(soundDir);
+emotionvoices = classifyFiles(soundDir);
 options = [];
 [expe, options] = building_conditions2(options);
 
@@ -8,18 +8,22 @@ options.(phase).total_ntrials
   
 for iTrial = 1 : options.(phase).total_ntrials
     
-    
-    emotionVect = strcmp({files.emotion}, expe.test.condition(iTrial).voicelabel);
-    phaseVect = strcmp({files.phase}, phase);
+    emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(iTrial).voicelabel);
+    phaseVect = strcmp({emotionvoices.phase}, phase);
     possibleFiles = [emotionVect & phaseVect];
+    indexes = 1:length(possibleFiles);
+    indexes = indexes(possibleFiles);
+    %this works
+    %this should store all names of possibleFiles 
+    toPlay = randperm(length(emotionvoices(indexes)),1);
     
-    
-        emotionvoices(possibleFiles).name;
-    
-    
-    [y, Fs] = audioread (emotionvoices(randVect(iFile)).name);
+    [y, Fs] = audioread(emotionvoices(indexes(toPlay)).name);
+    disp (emotionvoices(indexes(toPlay)).name)
     player = audioplayer (y, Fs);
     playblocking (player); 
-     
+    
+    % remove just played file from list of possible sound files
+    emotionvoices(indexes(toPlay)) = [];
+    
 end
     
