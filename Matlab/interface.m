@@ -1,6 +1,12 @@
 function interface(phase)
     % interface for emotion task
-
+    simulateSubj = false;
+    if regexp(phase, 'autoplay')
+        phase = regexp(phase, 'autoplay', 'split');
+        phase = phase{1};
+        simulateSubj = true;
+    end
+        
     %  Create and then hide the GUI as it is being constructed.
 
 
@@ -65,6 +71,10 @@ function interface(phase)
 %     emotionvoices(indexes(toPlay)).emotion
     % Make the GUI visible.
     f.Visible = 'on';
+    
+    if simulateSubj
+        autoplay;
+    end
 
     %  Callbacks for simple_gui. These callbacks automatically
     %  have access to component handles and initialized data
@@ -127,7 +137,20 @@ function interface(phase)
 %                 return;
             end
         end
-
+    
+        function autoplay
+            while iresp < options.(phase).total_ntrials
+                iresp = iresp + 1;
+                [emotionvoices, filename] = playfile(iresp, emotionvoices, expe, phase, options, soundDir);
+                resp(iresp).key = randi([1 3], 1);
+                resp(iresp).emotionSnd = filename;
+                resp(iresp).acc = strcmp(resp(iresp).key, resp(iresp).emotionSnd);
+                resp(iresp).emotionLbl = expe.(phase).condition(iresp).voicelabel;
+                resp(iresp).congruent = strcmp(resp(iresp).emotionSnd, resp(iresp).emotionLbl);
+                save('responses.mat', 'resp');
+                Continue(emotionvoices);
+            end
+        end
 
 end
 
@@ -171,3 +194,8 @@ function emotionvoices = files2play(emotionvoices, phase)
     emotionvoices = emotionvoices(strcmp({emotionvoices.phase}, phase));   
 
 end
+
+   
+    
+
+
