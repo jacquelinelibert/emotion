@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 function [G, bkg, Clown, Buttons, screen2, CircusAnimal, Confetti] = EmotionGame
 %       Setup Game 
    
@@ -72,7 +72,7 @@ function [G, bkg, Clown, Buttons, screen2, CircusAnimal, Confetti] = EmotionGame
 end
 
     
-=======
+
 function [G, bkg, Clown, Buttons, screen2, CircusAnimal, Confetti] = EmotionGame
 %       Setup Game 
    
@@ -146,5 +146,4 @@ function [G, bkg, Clown, Buttons, screen2, CircusAnimal, Confetti] = EmotionGame
 end
 
     
->>>>>>> 2f13273f84154e0fe5f581382b5f751412c581b3
     
