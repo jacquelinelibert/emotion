@@ -7,7 +7,6 @@ emotionvoices = dir([soundDir '*.wav']);
 % speaker = s1:8;
 
 
-
 nFile = length (emotionvoices);
 
 for iFile = 1:nFile 
@@ -25,7 +24,8 @@ for iFile = 1:nFile
         case {'1', '3', '7', '8'}
             emotionvoices(iFile).phase = 'training';
     end 
-        
+ 
+ 
 end
 
 

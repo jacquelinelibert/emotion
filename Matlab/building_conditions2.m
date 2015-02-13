@@ -49,7 +49,6 @@ for ir = 1:options.test.n_repeat
         condition(itrial).facelabel = options.test.faces{options.test.stimuli_pairs(i_sp, 2)};           
         condition(itrial).congruent = condition(itrial).voice == condition(itrial).face;
                 
-
     end
 end
 
