@@ -50,7 +50,9 @@ function interface(phase)
     
     % load stimuli for presentation
     soundDir = '../Stimuli/Emotion/Emotion_normalized/';
-    emotionvoices = classifyFiles(soundDir);
+%     emotionvoices = classifyFiles(soundDir);
+%     emotionvoices = files2play(emotionvoices, phase);
+    emotionvoices = files2play(classifyFiles(soundDir), phase);
     options = [];
     [expe, options] = building_conditions2(options);
     
@@ -70,14 +72,16 @@ function interface(phase)
 
     % Push button callbacks. Each callback plots current_data in
     % the specified plot type.
-
+    filename = '';
         function left_Callback(source,eventdata)
             resp(iresp).key = buttonName{1};
-            resp(iresp).emotion = emotionvoices(indexes(toPlay)).emotion;
-            resp(iresp).acc = strcmp(resp(iresp).key, resp(iresp).emotion);
-            resp(iresp).congruent = strcmp(emotionvoices(indexes(toPlay)).emotion, expe.(phase).condition(iTrial).voicelabel);
+            resp(iresp).emotionSnd = filename;
+            resp(iresp).acc = strcmp(resp(iresp).key, resp(iresp).emotionSnd);
+            resp(iresp).emotionLbl = expe.(phase).condition(iresp).voicelabel;
+            resp(iresp).congruent = strcmp(resp(iresp).emotionSnd, resp(iresp).emotionLbl);
             iresp = iresp + 1;
-            emotionvoices = playfile(iresp, emotionvoices, expe, phase, options, soundDir);
+            [emotionvoices, filename] = playfile(iresp, emotionvoices, expe, phase, options, soundDir);
+            save('responses.mat', 'resp');
             Continue(emotionvoices);
         end
 
@@ -88,32 +92,39 @@ function interface(phase)
                 set(leftBox, 'Visible', 'On');
             else
                 resp(iresp).key = buttonName{2};
-                resp(iresp).emotion = emotionvoices(indexes(toPlay)).emotion;
-                resp(iresp).acc = strcmp(resp(iresp).key, resp(iresp).emotion);
-                resp(iresp).congruent = strcmp(emotionvoices(indexes(toPlay)).emotion, expe.(phase).condition(iTrial).voicelabel);
+                resp(iresp).emotionSnd = filename;
+                resp(iresp).acc = strcmp(resp(iresp).key, resp(iresp).emotionSnd);
+                resp(iresp).emotionLbl = expe.(phase).condition(iresp).voicelabel;
+                resp(iresp).congruent = strcmp(resp(iresp).emotionSnd, resp(iresp).emotionLbl);
             end
             iresp = iresp + 1;
-            emotionvoices = playfile(iresp, emotionvoices, expe, phase, options, soundDir);
+            [emotionvoices, filename] = playfile(iresp, emotionvoices, expe, phase, options, soundDir);
+            save('responses.mat', 'resp');
             Continue(emotionvoices);
         end
 
         function right_Callback(source,eventdata)
             resp(iresp).key = buttonName{3};
-            resp(iresp).emotion = emotionvoices(indexes(toPlay)).emotion;
-            resp(iresp).acc = strcmp(resp(iresp).key, resp(iresp).emotion);
-            resp(iresp).congruent = strcmp(emotionvoices(indexes(toPlay)).emotion, expe.(phase).condition(iTrial).voicelabel);
+            resp(iresp).emotionSnd = filename;
+            resp(iresp).acc = strcmp(resp(iresp).key, resp(iresp).emotionSnd);
+            resp(iresp).emotionLbl = expe.(phase).condition(iresp).voicelabel;
+            resp(iresp).congruent = strcmp(resp(iresp).emotionSnd, resp(iresp).emotionLbl);
             iresp = iresp + 1;
-            emotionvoices = playfile(iresp, emotionvoices, expe, phase, options, soundDir);
+            [emotionvoices, filename] = playfile(iresp, emotionvoices, expe, phase, options, soundDir);
             save('responses.mat', 'resp');
             Continue(emotionvoices);
         end
     
         function Continue(emotionvoices)
-            if isempty(emotionvoices)
+%             fprintf('%i %s', iresp, resp(iresp).emotionSnd)
+            iresp
+            if iresp == options.(phase).total_ntrials
                 set(rightBox, 'Visible', 'Off');
                 set(leftBox, 'Visible', 'Off');
                 centerBox.String = 'THANK YOU';
-                return;
+                pause(5)
+                close(gcf)
+%                 return;
             end
         end
 
@@ -122,7 +133,7 @@ end
 
 % playfile([soundDir emotionvoices(indexes(toPlay)).name])
 
-function emotionvoices = playfile(iTrial, emotionvoices, expe, phase, options, soundDir)
+function [emotionvoices, played] = playfile(iTrial, emotionvoices, expe, phase, options, soundDir)
     
     emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(iTrial).voicelabel);
     phaseVect = strcmp({emotionvoices.phase}, phase);
@@ -130,8 +141,23 @@ function emotionvoices = playfile(iTrial, emotionvoices, expe, phase, options, s
     indexes = 1:length(possibleFiles);
     indexes = indexes(possibleFiles);
 
-    toPlay = randperm(length(emotionvoices(indexes)),1);
+    if isempty(emotionvoices(indexes)) % extend structure with missing files and redo selection
+        nLeft = length(emotionvoices);
+        tmp = files2play(classifyFiles(soundDir), phase);
+        emotionvoices(nLeft + 1 : nLeft + length(tmp)) = tmp;
+        clear tmp
+        emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(iTrial).voicelabel);
+        phaseVect = strcmp({emotionvoices.phase}, phase);
+        possibleFiles = [emotionVect & phaseVect];
+        indexes = 1:length(possibleFiles);
+        indexes = indexes(possibleFiles);
+    end
     
+    isempty(emotionvoices(indexes))
+    length(emotionvoices(indexes))
+    
+    toPlay = randperm(length(emotionvoices(indexes)),1);
+    played = emotionvoices(indexes(toPlay)).name;
     [y, Fs] = audioread([soundDir emotionvoices(indexes(toPlay)).name]);
     player = audioplayer (y, Fs);
     playblocking (player);
@@ -140,3 +166,8 @@ function emotionvoices = playfile(iTrial, emotionvoices, expe, phase, options, s
     emotionvoices(indexes(toPlay)) = [];
 end
 
+function emotionvoices = files2play(emotionvoices, phase)
+
+    emotionvoices = emotionvoices(strcmp({emotionvoices.phase}, phase));   
+
+end
