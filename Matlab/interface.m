@@ -56,6 +56,7 @@ function interface(phase)
     
     % load stimuli for presentation
     soundDir = '../Stimuli/Emotion/Emotion_normalized/';
+    soundDir = '../Stimuli/Emotion_normalized/';
 %     emotionvoices = classifyFiles(soundDir);
 %     emotionvoices = files2play(emotionvoices, phase);
     emotionvoices = files2play(classifyFiles(soundDir), phase);
