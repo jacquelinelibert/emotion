@@ -1,184 +1,93 @@
 function [expe, options] = building_conditions(options)
 
-%----------- Signal options
-options.fs = 44100;
-if test_machine
-    options.attenuation_dB = 3;  % General attenuation
-else
-    options.attenuation_dB = 27; % General attenuation
-end
-options.ear = 'both'; % right, left or both
-
-% test_machine = is_test_machine();
-
 %----------- Design specification
 options.test.n_repeat = 8; % Number of repetition per condition
 options.test.retry = 1; % Number of retry if measure failed
 options.test.total_ntrials = 72; % nr of trials per block 
 
-options.training1.n_repeat = 2;
-options.training1.retry = 0 ; 
-options.training1.total_ntrials = 6; % nr of trials of training1
+options.facerecognition.n_repeat = 2;
+options.facerecognition.retry = 0 ; 
+options.facerecognition.total_ntrials = 6; % nr of trials of training1
 
-options.training2.n_repeat = 0;  
-options.training2.retry = 0; 
-options.training2.total_ntrials = 9; 
+% options.training.n_repeat = 0;  
+% options.training.retry = 0; 
+options.training.total_ntrials = 9; % nr of trials of training2
+
+%  training1 
+%  6 faces are presented without sounds. Each face is presented twice. 
 
 % -------- Stimuli options 
-% options = struct();
+options.facerecognition.faces = {'angry1', 'sad1', 'joyful1','angry2', 'sad2', 'joyful2'}; % PT: we need to distinguish the faces
 
-% --- training1 
-% 6 faces are presented without sounds. Each face is presented twice. 
-options.training1.faces = ['angryface', 'sadface', 'joyfulface'];
+%---
+options.test.voices = {'angry', 'sad', 'joyful'};
+options.test.faces = {'angry', 'sad', 'joyful'};
 
-options.training1.faces(1).label = 'angry'; 
 
-options.training1.face(2).label = 'sad';
-options.training1.face(2).face = 'sadface'; 
-
-options.training1.face(3).label = 'joyful';
-options.training1.condition(3).face = 'joyfulface'; 
-
-% ------- 
-options.test.voice = ['angryvoice', 'sadvoice', 'joyfulvoice'];
-options.test.face = ['angryface', 'sadface', 'joyfulface'];
-options.test.state = ['congruent', 'incongruent'];
-
-options.test.condition(1).label = 'angry_angry';
-options.test.condition(1).voice = 'angryvoice';
-options.test.condition(1).face = 'angryface';
-options.test.condition(1).state = 'congruent';
-
-options.test.condition(2).label = 'angry_sad';
-options.test.condition(2).voice = 'angryvoice';
-options.test.condition(2).face = 'sadface';
-options.test.condition(2).state = 'incongruent';
-
-options.test.condition(3).label = 'angry_joyful';
-options.test.condition(3).voice = 'angryvoice';
-options.test.condition(3).face = 'joyfulface';
-options.test.condition(3).state = 'incongruent';
-
-options.test.condition(4).label = 'sad_sad';
-options.test.condition(4).voice = 'sadvoice';
-options.test.condition(4).face = 'sadface';
-options.test.condition(4).state = 'congruent';
-
-options.test.condition(5).label = 'sad_angry';
-options.test.condition(5).voice = 'sadvoice';
-options.test.condition(5).face = 'angryface';
-options.test.condition(5).state = 'incongruent';
-
-options.test.condition(6).label = 'sad_joyful';
-options.test.condition(6).voice = 'sadvoice';
-options.test.condition(6).face = 'joyfulface';
-options.test.condition(6).state = 'incongruent';
-
-options.test.condition(7).label = 'joyful_joyful'; 
-options.test.condition(7).voice = 'joyfulvoice';
-options.test.condition(7).face = 'joyfulface';
-options.test.condition(7).state = 'congruent';
-
-options.test.condition(8).label = 'joyful_angry'; 
-options.test.condition(8).voice = 'joyfulvoice';
-options.test.condition(8).face = 'angryface';
-options.test.condition(8).state = 'incongruent';
-
-options.test.condition(9).label = 'joyful_sad'; 
-options.test.condition(9).voice = 'joyfulvoice';
-options.test.condition(9).face = 'sadface';
-options.test.condition(9).state = 'incongruent';
-
-options.training2.condition = options.test.condition;
-
+%--- stimuli pairs
+% [voice, face]
+options.test.stimuli_pairs = [...
+    1 1;  % angry - angry
+    1 2;  % angry - sad
+    1 3;  % angry - joyful
+    2 1;  % sad - angry
+    2 2;  % sad - sad
+    2 3;  % sad - joyful
+    3 1;  % joyful - angry
+    3 2;  % joyful - sad
+    3 3;];  % joyful - joyful
 
 %==================================================== Build test block
 
-test = struct();
+% we have a 1 to 2 ratio for compatibility. We want to keep that 1:1, so
+% we are going to exclude half of the incompatible trials. We could do that 
+% either having only 4 repetitions of the incongruent images or selecting
+% them afterwards. 
 
-for ir = 1:options.test.n_repeat
+itrial = 0;
+npairs = length(options.test.stimuli_pairs);
+halfRep = options.test.n_repeat / 2;
+for irep = 1 : options.test.n_repeat
+    for ipair = 1 : npairs
+        if irep > halfRep
+            voice = options.test.stimuli_pairs(ipair, 1);
+            face = options.test.stimuli_pairs(ipair, 2);
+            if voice == face
+                itrial = itrial + 1;
+                condition(itrial).voice = options.test.stimuli_pairs(ipair, 1);
+                condition(itrial).face = options.test.stimuli_pairs(ipair, 2);
+                condition(itrial).voicelabel = options.test.voices{options.test.stimuli_pairs(ipair, 1)};
+                condition(itrial).facelabel = options.test.faces{options.test.stimuli_pairs(ipair, 2)};
+                condition(itrial).congruent = condition(itrial).voice == condition(itrial).face;
+            end
 
-        condition = struct();
-
-        condition.vocoder = 0;
-
-        condition.visual_feedback = 1;
-
-        % Do not remove these lines
-        condition.i_repeat = ir;
-        condition.done = 0;
-        condition.attempts = 0;
-
-        if ~isfield(test,'conditions')
-            test.conditions = orderfields(condition);
         else
-            test.conditions(end+1) = orderfields(condition);
+            itrial = itrial + 1;
+            condition(itrial).voice = options.test.stimuli_pairs(ipair, 1);
+            condition(itrial).face = options.test.stimuli_pairs(ipair, 2);
+            condition(itrial).voicelabel = options.test.voices{options.test.stimuli_pairs(ipair, 1)};
+            condition(itrial).facelabel = options.test.faces{options.test.stimuli_pairs(ipair, 2)};
+            condition(itrial).congruent = condition(itrial).voice == condition(itrial).face;
         end
-        
+    end
 end
 
+% Add something so that every condition is picked an equal nr of times? 
 
 % Randomization of the order
 %options.n_blocks = length(test.conditions)/options.test.block_size;
-test.conditions = test.conditions(randperm(length(test.conditions)));
 
-%================================================== Build training1 block
+%blabla = condition(options.test.condition.congruent==1); 
+test.condition = condition(randperm(length(condition)));
+%test.condition = [];
+training.condition = condition(randperm(options.training.total_ntrials));
 
-training1 = struct();
-
-for ir = 1:options.training1.n_repeat
-    
-        condition = struct();
-        
-        condition.vocoder = 0;
-
-        condition.visual_feedback = 0;
-
-        % Do not remove these lines
-        condition.i_repeat = ir;
-        condition.done = 0;
-        condition.attempts = 0;
-
-        if ~isfield(training1,'conditions')
-            training1.conditions = orderfields(condition);
-        else
-            training1.conditions(end+1) = orderfields(condition);
-        end
-
-    end
-end
-
-%================================================== Build training2 block
-
-training2 = struct();
-
-for ir = 1:options.training2.n_repeat
-
-        condition = struct();      
-
-        condition.vocoder = 0;
-
-        condition.visual_feedback = 1;
-
-        % Do not remove these lines
-        condition.i_repeat = ir;
-        condition.done = 0;
-        condition.attempts = 0;
-
-        if ~isfield(training2,'conditions')
-            training2.conditions = orderfields(condition);
-        else
-            training2.conditions(end+1) = orderfields(condition);
-        end
-
-    end
-    end
-
+options.facerecognition.faces = options.facerecognition.faces(randperm(length(options.facerecognition.faces)));
 %====================================== Create the expe structure and save
 
 expe.test = test;
-expe.training1 = training1;
-expe.training2 = training2; 
+expe.training = training;
+expe.facerecognition = options.facerecognition;
 
 %--
                 
@@ -186,4 +95,6 @@ if isfield(options, 'res_filename')
     save(options.res_filename, 'options', 'expe');
 else
     warning('The test file was not saved: no filename provided.');
+end
+
 end
