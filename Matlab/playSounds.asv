@@ -1,10 +1,8 @@
-function [player, possibleFiles] = playSounds 
-
+func
 soundDir = '../Stimuli/Emotion/Emotion_normalized/';
 emotionvoices = classifyFiles(soundDir);
 options = [];
 [expe, options] = building_conditions2(options);
-
 
 phase = 'test';
 options.(phase).total_ntrials

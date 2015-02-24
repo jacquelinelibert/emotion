@@ -3,7 +3,7 @@ function [expe, options] = building_conditions(options)
 %----------- Design specification
 options.test.n_repeat = 8; % Number of repetition per condition
 options.test.retry = 1; % Number of retry if measure failed
-options.test.total_ntrials = 72; % nr of trials per block 
+options.test.total_ntrials = 48; % nr of trials per block 
 
 options.facerecognition.n_repeat = 2;
 options.facerecognition.retry = 0 ; 
@@ -14,7 +14,7 @@ options.facerecognition.total_ntrials = 6; % nr of trials of training1
 options.training.total_ntrials = 9; % nr of trials of training2
 
 %  training1 
-%  6 faces are presented without sounds. Each face is presented twice. 
+%  6 faces are presented without sounds. Each face is preconsented twice. 
 
 % -------- Stimuli options 
 options.facerecognition.faces = {'angry1', 'sad1', 'joyful1','angry2', 'sad2', 'joyful2'}; % PT: we need to distinguish the faces

@@ -70,9 +70,8 @@ function [G, bkg, Clown, Buttons, screen2] = EmotionGame
 %     Confetti.Location = [screen2(3)/4, screen2(4)-450];
 %     Confetti.State = 'confetti';
 
-   % function action (Clown)
-   %     Clown.State = Clown.CycleNext; 
-   % end
+    function action (s)
+        Clown.State = Clown.Cycleext 
         
 end
 
