@@ -16,7 +16,6 @@ for iTrial = 1 : options.(phase).total_ntrials
     possibleFiles = [emotionVect & phaseVect];
     indexes = 1:length(possibleFiles);
     indexes = indexes(possibleFiles);
-    %this works
     %this should store all names of possibleFiles 
     toPlay = randperm(length(emotionvoices(indexes)),1);
     
