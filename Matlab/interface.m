@@ -64,7 +64,7 @@ function interface(phase)
     [expe, options] = building_conditions2(options);
     
     % initialize response structure
-    resp = repmat(struct('key', 0, 'acc', 0), 1, options.(phase).total_ntrials);
+    resp = repmat(struct('key', 0, 'acc', 0), 1);
     % initialize response counter
     iresp = 0;
 

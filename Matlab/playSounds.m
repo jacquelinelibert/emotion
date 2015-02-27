@@ -1,10 +1,7 @@
-function [player, possibleFiles] = playSounds 
-
-soundDir = '../Stimuli/Emotion/Emotion_normalized/';
+function [player] = playSounds (iTrial)
 emotionvoices = classifyFiles(soundDir);
 options = [];
-[expe, options] = building_conditions2(options);
-
+[expe, options] = building_conditions(options);
 
 phase = 'test';
 options.(phase).total_ntrials
@@ -23,13 +20,20 @@ for iTrial = 1 : options.(phase).total_ntrials
     disp (emotionvoices(indexes(toPlay)).name)
     player = audioplayer (y, Fs);
     playblocking (player); 
-    
+     uiwait();
     % remove just played file from list of possible sound files
     emotionvoices(indexes(toPlay)) = [];
     
-end
     
+end
 
     
+    
+        
+    
+end
+
+
+
     
 

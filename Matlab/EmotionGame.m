@@ -1,6 +1,6 @@
 
 function [G, bkg, Clown, Buttons, screen2] = EmotionGame
-%%       Setup Game 
+%      Setup Game 
 
 % PT: check if there are games already opened and close them
     fig = get(groot,'CurrentFigure');
@@ -12,7 +12,7 @@ function [G, bkg, Clown, Buttons, screen2] = EmotionGame
     [~, screen2] = getScreens();
     fprintf('Experiment will displayed on: [%s]\n', sprintf('%d ',screen2));
     % We put the game on screen 2
-  %% Make animation  
+  % Make animation  
  G = SpriteKit.Game.instance('Title','Emotion Game', 'Size', screen2(3:4), 'Location', screen2(1:2), 'ShowFPS', false);
 
     bkg = SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/BACKGROUND_unscaled.png'));
@@ -45,11 +45,11 @@ function [G, bkg, Clown, Buttons, screen2] = EmotionGame
     end
     Buttons.Location = [screen2(3)/2, screen2(4)-650];
     Buttons.State = 'buttons';
-    ratioscreenbuttons = 0.2 * screen2(4);
-    [HeightButtons, ~] = size(imread ('../Images/buttons_1.png'));
-    Buttons.Scale = ratioscreenbuttons/HeightButtons;
-        
-  %      CircusAnimals 
+    % ratioscreenbuttons = 0.2 * screen2(4);
+    % [HeightButtons, ~] = size(imread ('../Images/buttons_1.png'));
+    Buttons.Scale = 0.3;
+    
+      %      CircusAnimals 
 %    CircusAnimal = Spritekit.Sprite ('circusanimal');
 %     initState (CircusAnimal, 'circusanimals', '../Images/circusanimal_1.png', true);
 %     for k = 1:8 % in case of 8 different images (different image for every 6 trials)
@@ -69,6 +69,28 @@ function [G, bkg, Clown, Buttons, screen2] = EmotionGame
 %     initState (Confetti, 'confetti', '../Images/confetti.png', true);
 %     Confetti.Location = [screen2(3)/4, screen2(4)-450];
 %     Confetti.State = 'confetti';
+   
+    
+   %% 
+   G.onKeyPress = @keypressfcn;
+   
+   
+     function keypressfcn(~,e)
+      switch e.Key
+            case 'a'
+                Clown.State = 'clownfish_1';
+            case 's'
+                Clown.State = 'clownfish_2';
+            case 'd'
+                Clown.State = 'clownfish_3';
+            case 'f'
+                Clown.State = 'clownfish_4';
+        end
+     end    
+
+ 
+    
+    
 
    % function action (Clown)
    %     Clown.State = Clown.CycleNext; 
