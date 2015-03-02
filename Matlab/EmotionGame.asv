@@ -82,6 +82,7 @@ addBorders(G);
     
 %      Start and finish     
     gameCommands = SpriteKit.Sprite('controls');
+  
     initState(gameCommands, 'begin','../Images/start.png' , true);
     initState(gameCommands, 'finish','../Images/finish.png' , true);
     initState(gameCommands, 'empty', ones(1,1,3), true); % to replace the images, 'none' will give an annoying warning

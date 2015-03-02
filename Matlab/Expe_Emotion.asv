@@ -93,11 +93,9 @@ function Expe_Emotion(subjectname, phase)
 
         resp(itrial).response = response;
         resp(itrial).condition = expe.(phase).condition(itrial);
-        % resp.totalcorrect = sum(response.correct();
-        % add something so you can see total of correct responses all at
-        % once? 
-       
-        save (options.res_filename, 'options', 'expe', 'resp');
+        results.(phase).conditions(itrial) = struct('att', struct('responses', struct(), 'differences', [], 'steps',
+
+        save (options.res_filename, 'options', 'expe', 'results');
         
         if itrial == options.(phase).total_ntrials
             gameCommands.Scale = 2; 
