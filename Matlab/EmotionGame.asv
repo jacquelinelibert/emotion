@@ -101,18 +101,18 @@ addBorders(G);
     gameCommands.clickD = round(gameCommands.Location(2) - round(clickArea(2)/2));
     gameCommands.clickU = round(gameCommands.Location(2) + round(clickArea(2)/2));
     clear clickArea 
-   
+    
 %      CircusAnimals 
-      CircusAnimal = SpriteKit.Sprite ('circusanimal');
-      CircusAnimal.initState ('monkey', '../Images/circusanimal_1.png', true);
- %       for k = 1:8 % in case of 8 different images (different image for every 6 trials)
- %           spritename = sprintf ('circusanimal_%d', k);
- %           pngFile = ['../Images/' spritename '.png'];
- %           initState (CircusAnimal, ['circusanimal_' int2str(k)] , pngFile, true);
- %       end
-       CircusAnimal.Location = [screen2(3)/0.5, screen2(4)-150];
-       CircusAnimal.State = 'monkey';
-       ratioscreencircusanimal = 0.2 * screen2(4);
-       [HeightCircusAnimal, ~] = size (imread ('../Images/circusanimal_1.png'));
-       CircusAnimal.Scale = ratioscreencircusanimal/HeightCircusAnimal;     
+     CircusAnimal = SpriteKit.Sprite ('circusanimal');
+     initState (CircusAnimal, 'circusanimals', '../Images/circusanimal_1.png', true);
+%       for k = 1:8 % in case of 8 different images (different image for every 6 trials)
+%           spritename = sprintf ('circusanimal_%d', k);
+%           pngFile = ['../Images/' spritename '.png'];
+%           initState (CircusAnimal, ['circusanimal_' int2str(k)] , pngFile, true);
+%       end
+      CircusAnimal.Location = [screen2(3)/0.5, screen2(4)-150];
+      CircusAnimal.State = 'circusanimals';
+      ratioscreencircusanimal = 0.2 * screen2(4);
+      [HeightCircusAnimal, ~] = size (imread ('../Images/circusanimal_1.png'));
+      CircusAnimal.Scale = ratioscreencircusanimal/HeightCircusAnimal;     
 end
