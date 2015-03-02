@@ -1,80 +1,90 @@
 function Expe_Emotion(subjectname, phase)
+% 
 
-%% Game Stuff 
-[G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, CircusAnimal] = EmotionGame; 
-G.onMouseRelease = @buttondownfcn;
+    added_path  = {};
 
-%% Setup experiment 
-options.subject_name = subjectname;
-options.result_path = '../Results'; 
-options.result_prefix = 'emo_';
-res_filename = fullfile(options.result_path, sprintf('%s%s.mat', options.result_prefix, options.subject_name));
-options.res_filename = res_filename;
+    added_path{end+1} = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+    
 
-results = struct ();
-if exist(res_filename, 'file')
-    filesList = dir(fullfile(options.result_path, sprintf('*%s*.mat', options.subject_name)));
-    options.subject_name = sprintf('%s_%d', options.subject_name, length(filesList)+1);
+    for i=1:length(added_path)
+        addpath(added_path{i});
+    end
+
+    %% Game Stuff 
+    [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, CircusAnimal] = EmotionGame; 
+    G.onMouseRelease = @buttondownfcn;
+
+    %% Setup experiment 
+    options.subject_name = subjectname;
+    options.result_path = '../Results'; 
+    options.result_prefix = 'emo_';
     res_filename = fullfile(options.result_path, sprintf('%s%s.mat', options.result_prefix, options.subject_name));
     options.res_filename = res_filename;
-end
-[expe, options] = building_conditions(options);
 
-response_accuracy = [];
-starting = 0;   
-
-soundDir = '../Stimuli/Emotion_normalized/';
-emotionvoices = classifyFiles(soundDir);
-% options = [];
-
-phase = 'test';
-options.(phase).total_ntrials
-
-% Add the response to the results structure
-% expe.( phase ).condition(itrial) = expe.( phase ).condition(itrial+1);
-
-% ============= Main loop =============   
-for itrial = 1 : options.(phase).total_ntrials
-    
-    while starting == 0
-        uiwait();
+    results = struct ();
+    if exist(res_filename, 'file')
+        filesList = dir(fullfile(options.result_path, sprintf('*%s*.mat', options.subject_name)));
+        options.subject_name = sprintf('%s_%d', options.subject_name, length(filesList)+1);
+        res_filename = fullfile(options.result_path, sprintf('%s%s.mat', options.result_prefix, options.subject_name));
+        options.res_filename = res_filename;
     end
-    
-    CircusAnimal.State = 'circusanimal'; 
-    Clown.State = 'silent';
-    Buttonup.State = 'off';
-    Buttondown.State = 'off';
-    Confetti.State = 'nono'; 
-    
-    emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(itrial).voicelabel);
-    phaseVect = strcmp({emotionvoices.phase}, phase);
-    possibleFiles = [emotionVect & phaseVect];
-    indexes = 1:length(possibleFiles);
-    indexes = indexes(possibleFiles);
-    %this should store all names of possibleFiles 
-    toPlay = randperm(length(emotionvoices(indexes)),1);
-    
-    [y, Fs] = audioread(emotionvoices(indexes(toPlay)).name);
-    disp (emotionvoices(indexes(toPlay)).emotion)
-    player = audioplayer (y, Fs);
-    playblocking (player); 
-    
-    Clown.State = expe.(phase).condition(itrial).facelabel;
-    Buttonup.State = 'on';
-    Buttondown.State = 'on';
-    
-    tic();
-    uiwait();
-    % remove just played file from list of possible sound files
-    emotionvoices(indexes(toPlay)) = [];
-    
-    resp(itrial).response=response;
-    resp(itrial).condition=expe.(phase).condition(itrial);
-    
-    save ('tryoutresponses.mat', 'resp');
-    
-    
-end
+    [expe, options] = building_conditions(options);
+
+    response_accuracy = [];
+    starting = 0;   
+
+    soundDir = '../Stimuli/Emotion_normalized/';
+    emotionvoices = classifyFiles(soundDir);
+    % options = [];
+
+    phase = 'test';
+    options.(phase).total_ntrials
+
+    % Add the response to the results structure
+    % expe.( phase ).condition(itrial) = expe.( phase ).condition(itrial+1);
+
+    % ============= Main loop =============   
+    for itrial = 1 : options.(phase).total_ntrials
+
+        while starting == 0
+            uiwait();
+        end
+
+        CircusAnimal.State = 'circusanimal'; 
+        Clown.State = 'silent';
+        Buttonup.State = 'off';
+        Buttondown.State = 'off';
+        Confetti.State = 'nono'; 
+
+        emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(itrial).voicelabel);
+        phaseVect = strcmp({emotionvoices.phase}, phase);
+        possibleFiles = [emotionVect & phaseVect];
+        indexes = 1:length(possibleFiles);
+        indexes = indexes(possibleFiles);
+        %this should store all names of possibleFiles 
+        toPlay = randperm(length(emotionvoices(indexes)),1);
+
+        [y, Fs] = audioread(emotionvoices(indexes(toPlay)).name);
+        disp (emotionvoices(indexes(toPlay)).emotion)
+        player = audioplayer (y, Fs);
+        playblocking (player); 
+
+        Clown.State = expe.(phase).condition(itrial).facelabel;
+        Buttonup.State = 'on';
+        Buttondown.State = 'on';
+
+        tic();
+        uiwait();
+        % remove just played file from list of possible sound files
+        emotionvoices(indexes(toPlay)) = [];
+
+        resp(itrial).response=response;
+        resp(itrial).condition=expe.(phase).condition(itrial);
+
+        save ('tryoutresponses.mat', 'resp');
+
+
+    end
 
 % response_accuracy = [response_accuracy, response.correct]; 
 % resp = repmat(struct(response.button_clicked, 0), 1);
@@ -125,6 +135,11 @@ end
              end
             
         end
+    end
+
+    % Clean up the path
+    for i=1:length(added_path)
+        rmpath(added_path{i});
     end
 
 end
