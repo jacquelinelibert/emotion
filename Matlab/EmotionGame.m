@@ -1,4 +1,4 @@
-function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, CircusAnimal, Parrot] = EmotionGame 
+function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] = EmotionGame 
 
 % Setup Game 
 
@@ -124,26 +124,26 @@ addBorders(G);
     clear clickArea 
    
 %      CircusAnimals 
-    CircusAnimal = SpriteKit.Sprite ('circusanimal');
-    CircusAnimal.initState ('circusanimal', '../Images/circusanimal_1.png', true); 
-    CircusAnimal.initState ('empty', ones(1,1,3), true);
-    PositionPlaces = [1.7, 1.5; 1.6, 1.4; 1.5, 1.3; 1.4, 1.2; 1.3, 1.1; 1.1, 1.5];
-    addprop(CircusAnimal, 'currentLocation');
-    trial = 0;
-    
-    for animal = 1:8 % in case of 8 different images (different image for every 6 trials)
-        spritename = sprintf ('circusanimal_%d', animal);
-        pngFile = ['../Images/' spritename '.png'];
-        initState (CircusAnimal, ['circusanimal_' int2str(animal)] , pngFile, true);
-        for positions = 1:6
-            trial = trial +1;
-            CircusAnimal.currentLocation{trial}=[screen2(3)/PositionPlaces(positions,1), screen2(4)/PositionPlaces(positions, 1+1)];
-        end
-    end
-    
-    CircusAnimal.Location= [CircusAnimal.currentLocation{trial}];
-    CircusAnimal.State = 'empty';
-    ratioscreencircusanimal = 0.3 * screen2(4);
-    [HeightCircusAnimal, ~] = size (imread ('../Images/circusanimal_1.png'));
-    CircusAnimal.Scale = ratioscreencircusanimal/HeightCircusAnimal;
+%     CircusAnimal = SpriteKit.Sprite ('circusanimal');
+%     CircusAnimal.initState ('circusanimal', '../Images/circusanimal_1.png', true); 
+%     CircusAnimal.initState ('empty', ones(1,1,3), true);
+%     PositionPlaces = [1.7, 1.5; 1.6, 1.4; 1.5, 1.3; 1.4, 1.2; 1.3, 1.1; 1.1, 1.5];
+%     addprop(CircusAnimal, 'currentLocation');
+%     trial = 0;
+%     
+%     for animal = 1:8 % in case of 8 different images (different image for every 6 trials)
+%         spritename = sprintf ('circusanimal_%d', animal);
+%         pngFile = ['../Images/' spritename '.png'];
+%         initState (CircusAnimal, ['circusanimal_' int2str(animal)] , pngFile, true);
+%         for positions = 1:6
+%             trial = trial +1;
+%             CircusAnimal.currentLocation{trial}=[screen2(3)/PositionPlaces(positions,1), screen2(4)/PositionPlaces(positions, 1+1)];
+%         end
+%     end
+%     
+%     CircusAnimal.Location= [CircusAnimal.currentLocation{trial}];
+%     CircusAnimal.State = 'empty';
+%     ratioscreencircusanimal = 0.3 * screen2(4);
+%     [HeightCircusAnimal, ~] = size (imread ('../Images/circusanimal_1.png'));
+%     CircusAnimal.Scale = ratioscreencircusanimal/HeightCircusAnimal;
 end

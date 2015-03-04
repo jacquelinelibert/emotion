@@ -11,7 +11,7 @@ function Expe_Emotion(subjectname, phase)
     end
 
     %% Game Stuff 
-    [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, CircusAnimal, Parrot] = EmotionGame; 
+    [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
 
     %% Setup experiment 
@@ -47,8 +47,8 @@ function Expe_Emotion(subjectname, phase)
             uiwait();
         end
         
-        CircusAnimal.State =sprintf ('circusanimal_%d', ceil(itrial/6));
-        CircusAnimal.Location = [CircusAnimal.currentLocation{itrial}];
+%         CircusAnimal.State =sprintf ('circusanimal_%d', ceil(itrial/6));
+%         CircusAnimal.Location = [CircusAnimal.currentLocation{itrial}];
         
         if itrial == 1
             Clown.State = 'joyful'; 
@@ -62,8 +62,11 @@ function Expe_Emotion(subjectname, phase)
         
         for j = 5:-1:1
             Clown.State = sprintf('clown_%d',j);
-            pause(0.05)
+            pause(0.01)
         end
+        
+        Parrot.State = 'parrot_1';
+        pause(0.5)
        
         emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(itrial).voicelabel);
         phaseVect = strcmp({emotionvoices.phase}, phase);
@@ -102,11 +105,11 @@ function Expe_Emotion(subjectname, phase)
         
         for i = 1:5
             Clown.State = sprintf('clown_%d',i);
-            pause(0.05)
+            pause(0.01)
         end
         
-        
         Clown.State = expe.(phase).condition(itrial).facelabel;
+        pause(0.6)
         Buttonup.State = 'on';
         Buttondown.State = 'on';
 
@@ -160,13 +163,16 @@ function Expe_Emotion(subjectname, phase)
             
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
             
+            Buttonup.State = 'off';
+            Buttondown.State = 'off';
+            
             if response.correct 
-                for k = 1:7
+                for k = 3:7
                     Confetti.State = sprintf('confetti_%d', k);
                     pause(0.01)
                 end
+                pause(0.4)
             end
-            
             
             fprintf('Clicked button: %d\n', response.button_clicked);
             fprintf('Trials: %d\n', itrial);
