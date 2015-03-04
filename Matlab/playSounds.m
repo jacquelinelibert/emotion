@@ -1,39 +1,30 @@
-function [player] = playSounds (iTrial)
-emotionvoices = classifyFiles(soundDir);
-options = [];
-[expe, options] = building_conditions(options);
+function playSounds(varargin)
+%               cycleNext(varargin{2}); % this goes too fast.
 
-phase = 'test';
-options.(phase).total_ntrials
-  
-for iTrial = 1 : options.(phase).total_ntrials
-    
-    emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(iTrial).voicelabel);
-    phaseVect = strcmp({emotionvoices.phase}, phase);
-    possibleFiles = [emotionVect & phaseVect];
-    indexes = 1:length(possibleFiles);
-    indexes = indexes(possibleFiles);
-    %this should store all names of possibleFiles 
-    toPlay = randperm(length(emotionvoices(indexes)),1);
-    
-    [y, Fs] = audioread(emotionvoices(indexes(toPlay)).name);
-    disp (emotionvoices(indexes(toPlay)).name)
-    player = audioplayer (y, Fs);
-    playblocking (player); 
-     uiwait();
-    % remove just played file from list of possible sound files
-    emotionvoices(indexes(toPlay)) = [];
-    
-    
-end
-
-    
-    
+    iter = 1;
+    play(varargin{1})
+    while true
+        if nargin >= 2
+            statusCounter = mod(floor(iter/10), 4) + 1;
+%             if (mod(floor(iter/10), 4) == 0)
+                varargin{2}.State = ['talk' sprintf('%i', statusCounter)];
+                varargin{3}.State = sprintf('parrottalk_%i', statusCounter);
+                varargin{3}.Location = [varargin{2}.bubblesX, varargin{2}.bubblesY];
+%             end
+            iter = iter + 1;
+        end
+        if ~isplaying(varargin{1})
+            break;
+        end
+        pause(0.01);
         
+    end
+    
+    if nargin >= 2
+%         varargin{2}.Angle = 0;
+        varargin{2}.State = 'talk1';
+        % clear bubbles
+        varargin{3}.State = 'noBubbles';
+    end
     
 end
-
-
-
-    
-

@@ -11,7 +11,7 @@ function Expe_Emotion(subjectname, phase)
     end
 
     %% Game Stuff 
-    [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, CircusAnimal] = EmotionGame; 
+    [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, CircusAnimal, Parrot] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
 
     %% Setup experiment 
@@ -40,7 +40,7 @@ function Expe_Emotion(subjectname, phase)
     % Add the response to the results structure
     % expe.( phase ).condition(itrial) = expe.( phase ).condition(itrial+1);
 
-    % ============= Main loop =============   
+    %% ============= Main loop =============   
     for itrial = 1 : options.(phase).total_ntrials 
         
         while starting == 0
@@ -50,12 +50,26 @@ function Expe_Emotion(subjectname, phase)
         CircusAnimal.State =sprintf ('circusanimal_%d', ceil(itrial/6));
         CircusAnimal.Location = [CircusAnimal.currentLocation{itrial}];
         
-        Clown.State = 'silent';
+        if itrial == 1
+            Clown.State = 'joyful'; 
+        end
+        
         Buttonup.State = 'off';
         Buttondown.State = 'off';
-        Confetti.State = 'nono'; 
+        Confetti.State = 'off'; 
+        Parrot.State = 'neutral';
+        pause(1);
+        
+        Clown.State = 'shadow5';
+        pause(0.05)
+        Clown.State = 'shadow4';
+        pause(0.05)
+        Clown.State = 'shadow3';
+        pause(0.05)
+        Clown.State = 'shadow2';
+        pause(0.05)
+        Clown.State = 'shadow1';
        
-
         emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(itrial).voicelabel);
         phaseVect = strcmp({emotionvoices.phase}, phase);
         possibleFiles = [emotionVect & phaseVect];
@@ -76,12 +90,31 @@ function Expe_Emotion(subjectname, phase)
     
         %this should store all names of possibleFiles 
         toPlay = randperm(length(emotionvoices(indexes)),1);
-
         [y, Fs] = audioread(emotionvoices(indexes(toPlay)).name);
         disp (emotionvoices(indexes(toPlay)).emotion)
         player = audioplayer (y, Fs);
-        playblocking (player); 
-
+        iter = 1;
+        play(player)
+        while true
+            Parrot.State = ['parrot_' sprintf('%i', mod(iter, 2) + 1)];
+            iter = iter + 1;
+            pause(0.02);
+            if ~isplaying(player)
+                Parrot.State = 'neutral';
+                break;
+            end
+        end
+        
+        Clown.State = 'shadow1';
+        pause(0.05)
+        Clown.State = 'shadow2';
+        pause(0.05)
+        Clown.State = 'shadow3';
+        pause(0.05)
+        Clown.State = 'shadow4';
+        pause(0.05)
+        Clown.State = 'shadow5';
+        pause(0.05)
         Clown.State = expe.(phase).condition(itrial).facelabel;
         Buttonup.State = 'on';
         Buttondown.State = 'on';
@@ -93,9 +126,9 @@ function Expe_Emotion(subjectname, phase)
 
         resp(itrial).response = response;
         resp(itrial).condition = expe.(phase).condition(itrial);
-        results.(phase).conditions(itrial) = struct('att', struct('responses', struct(), 'differences', [], 'steps',
-
-        save (options.res_filename, 'options', 'expe', 'results');
+        
+        save (options.res_filename, 'options', 'expe', 'resp');
+        
         
         if itrial == options.(phase).total_ntrials
             gameCommands.Scale = 2; 
@@ -122,19 +155,26 @@ function Expe_Emotion(subjectname, phase)
             
             if (locClick(1) >= Buttonup.clickL) && (locClick(1) <= Buttonup.clickR) && ...
                     (locClick(2) >= Buttonup.clickD) && (locClick(2) <= Buttonup.clickU)
+                Buttonup.State = 'press';
                 response.button_clicked = 1;
             end
             
             if (locClick(1) >= Buttondown.clickL) && (locClick(1) <= Buttondown.clickR) && ...
                     (locClick(2) >= Buttondown.clickD) && (locClick(2) <= Buttondown.clickU)
+                Buttondown.State = 'press'; 
                 response.button_clicked = 0;
             end
+            
+            pause(0.5)
             
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
             
             if response.correct 
-                Confetti.State = 'confetti';
-                pause(1)
+                for k = 1:5
+              
+                    Confetti.State = 'confetti';
+                pause(0.5)
+                end
             end
             
             fprintf('Clicked button: %d\n', response.button_clicked);
