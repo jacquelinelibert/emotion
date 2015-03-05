@@ -2,6 +2,7 @@ function Expe_Emotion(varargin)
 % 
 
     if nargin > 0
+	simulateSubj = false;
         subjectname = varargin{1};
         phase = varargin{2};
     else
