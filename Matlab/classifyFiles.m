@@ -9,7 +9,7 @@ emotionvoices = dir([soundDir '*.wav']);
 
 nFile = length (emotionvoices);
 
-for iFile = 1:nFile 
+for iFile = 1 : nFile 
     switch (emotionvoices(iFile).name(4))
         case '2'
             emotionvoices(iFile).emotion = 'angry'; 

@@ -1,15 +1,23 @@
-function Expe_Emotion(subjectname, phase)
+function Expe_Emotion(varargin)
 % 
 
-    added_path  = {};
-
-    added_path{end+1} = 'C:/Users/Jacqueline Libert/Documents/SpriteKit';
-    
-
-    for i=1:length(added_path)
-        addpath(added_path{i});
+    if nargin > 0
+        subjectname = varargin{1};
+        phase = varargin{2};
+    else
+        simulateSubj = true;
+        subjectname = 'random';
+        phase = 'test';
     end
-
+    
+    [~, name] = system('hostname');
+    if strncmp(name, '12-000-4372', 11)
+        spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+    else
+        spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+    end
+    addpath(spriteKitPath);
+    
     %% Game Stuff 
     [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
@@ -43,10 +51,11 @@ function Expe_Emotion(subjectname, phase)
     %% ============= Main loop =============   
     for itrial = 1 : options.(phase).total_ntrials 
         
-        while starting == 0
-            uiwait();
-        end
-        
+        if ~simulateSubj
+            while starting == 0
+                uiwait();
+            end
+        end    
 %         CircusAnimal.State =sprintf ('circusanimal_%d', ceil(itrial/6));
 %         CircusAnimal.Location = [CircusAnimal.currentLocation{itrial}];
         
@@ -60,8 +69,8 @@ function Expe_Emotion(subjectname, phase)
         Parrot.State = 'neutral';
         pause(1);
         
-        for j = 5:-1:1
-            Clown.State = sprintf('clown_%d',j);
+        for clownState = 5:-1:1
+            Clown.State = sprintf('clown_%d',clownState);
             pause(0.01)
         end
         
@@ -76,7 +85,8 @@ function Expe_Emotion(subjectname, phase)
         
         if isempty(emotionvoices(indexes)) % extend structure with missing files and redo selection
             nLeft = length(emotionvoices);
-            tmp = emotionvoices(strcmp({emotionvoices.phase}, phase));
+%             tmp = emotionvoices(strcmp({emotionvoices.phase}, phase));
+            tmp = classifyFiles(soundDir);
             emotionvoices(nLeft + 1 : nLeft + length(tmp)) = tmp;
             clear tmp
             emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(itrial).voicelabel);
@@ -88,9 +98,9 @@ function Expe_Emotion(subjectname, phase)
     
         %this should store all names of possibleFiles 
         toPlay = randperm(length(emotionvoices(indexes)),1);
-        [y, Fs] = audioread(emotionvoices(indexes(toPlay)).name);
+        [y, Fs] = audioread([soundDir emotionvoices(indexes(toPlay)).name]);
         disp (emotionvoices(indexes(toPlay)).emotion)
-        player = audioplayer (y, Fs);
+        player = audioplayer(y, Fs);
         iter = 1;
         play(player)
         while true
@@ -103,8 +113,8 @@ function Expe_Emotion(subjectname, phase)
             end
         end
         
-        for i = 1:5
-            Clown.State = sprintf('clown_%d',i);
+        for clownState = 1:5
+            Clown.State = sprintf('clown_%d',clownState);
             pause(0.01)
         end
         
@@ -114,10 +124,15 @@ function Expe_Emotion(subjectname, phase)
         Buttondown.State = 'on';
 
         tic();
-        uiwait();
-        % remove just played file from list of possible sound files
-        emotionvoices(indexes(toPlay)) = [];
-
+        if ~simulateSubj
+            uiwait();
+        else
+            response.timestamp = now();
+            response.response_time = toc();
+            response.button_clicked = randi([0, 1], 1, 1); % default in case they click somewhere else
+            response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
+        end
+        
         resp(itrial).response = response;
         resp(itrial).condition = expe.(phase).condition(itrial);
         
@@ -128,6 +143,11 @@ function Expe_Emotion(subjectname, phase)
             gameCommands.Scale = 2; 
             gameCommands.State = 'finish';
         end
+        
+        % remove just played file from list of possible sound files
+        emotionvoices(indexes(toPlay)) = [];
+
+        
     end
 
      
@@ -193,10 +213,7 @@ function Expe_Emotion(subjectname, phase)
         end
     end
 
-    % Clean up the path
-    for i=1:length(added_path)
-        rmpath(added_path{i});
-    end
+    rmpath(spriteKitPath);
 
 end
 

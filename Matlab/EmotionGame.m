@@ -1,26 +1,19 @@
 function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] = EmotionGame 
 
-% Setup Game 
-
-% PT: check there are games already opened and close them
     fig = get(groot,'CurrentFigure');
     if ~isempty(fig)
         close(fig)
     end
-    clear fig   
- 
+    clear fig
+
     [~, screen2] = getScreens();
     fprintf('Experiment will displayed on: [%s]\n', sprintf('%d ',screen2));
-    % We put the game on screen 2
-  % Make animation  
 
-G = SpriteKit.Game.instance('Title','Emotion Game', 'Size', screen2(3:4), 'Location', screen2(1:2), 'ShowFPS', false);
+    G = SpriteKit.Game.instance('Title','Emotion Game', 'Size', screen2(3:4), 'Location', screen2(1:2), 'ShowFPS', false);
+
+    bkg = SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/circusbackground_unscaled.png'));
+    addBorders(G);
     
-bkg = SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/circusbackground_unscaled.png'));
-addBorders(G);
-    
-% Initiate Sprites 
-%       Clowns 
     Clown = SpriteKit.Sprite('clown');
     Clown.initState('angry',['../Images/' 'clownemo_1' '.png'], true);
     Clown.initState('sad',['../Images/' 'clownemo_2' '.png'], true);
