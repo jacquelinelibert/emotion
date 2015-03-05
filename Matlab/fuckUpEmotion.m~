@@ -1,0 +1,28 @@
+% tmp = gcf;
+% if ~isempty(tmp)
+%     close(tmp)
+% end
+
+spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+addpath(spriteKitPath);
+[G, bkg, Confetti, Clown] = EmotionGame_test;
+LocConfetti = Confetti.Location;
+
+cycleNext(Confetti)
+Confetti.Location = Clown.Location;
+% cycleNext(Clown)
+for iloop = 1:20
+%     cycleNext(Clown)
+%     Confetti.Location = Clown.Location - (iloop * 10)
+%     Confetti.Location(2) = Confetti.Location(2) - 10
+%     cycleNext(Confetti)
+    cycleNext(Clown)
+%     Clown.State = 'off'
+%     cycleNext(Confetti)
+    
+    pause(.1)
+end
+
+Confetti.Location = Clown.Location
+
+rmpath(spriteKitPath);
