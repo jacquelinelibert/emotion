@@ -20,7 +20,7 @@ function Expe_Emotion(varargin)
     addpath(spriteKitPath);
     
     %% Game Stuff 
-    [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] = EmotionGame; 
+    [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, Clownladder] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
 
     %% Setup experiment 
@@ -61,9 +61,11 @@ function Expe_Emotion(varargin)
 %         CircusAnimal.Location = [CircusAnimal.currentLocation{itrial}];
         
         if itrial == 1
-            Clown.State = 'joyful'; 
+            Clown.State = 'joyful'; % should be neutral? 
         end
         
+        Clownladder.State = 'ground';
+        Pool.State = 'pool';
         Buttonup.State = 'off';
         Buttondown.State = 'off';
         Confetti.State = 'off'; 
@@ -107,7 +109,7 @@ function Expe_Emotion(varargin)
         while true
             Parrot.State = ['parrot_' sprintf('%i', mod(iter, 2) + 1)];
             iter = iter + 1;
-            pause(0.02);
+            pause(0.2);
             if ~isplaying(player)
                 Parrot.State = 'neutral';
                 break;
@@ -188,11 +190,12 @@ function Expe_Emotion(varargin)
             Buttondown.State = 'off';
             
             if response.correct 
-                for k = 3:7
+                Clown.State = 'joyful';
+                for k = 1:7
                     Confetti.State = sprintf('confetti_%d', k);
                     pause(0.01)
                 end
-                pause(0.4)
+                pause(0.6)
             end
             
             fprintf('Clicked button: %d\n', response.button_clicked);
