@@ -2,7 +2,7 @@ function Expe_Emotion(varargin)
 % 
 
     if nargin > 0
-	simulateSubj = false;
+        simulateSubj = false;
         subjectname = varargin{1};
         phase = varargin{2};
     else
@@ -14,13 +14,14 @@ function Expe_Emotion(varargin)
     [~, name] = system('hostname');
     if strncmp(name, '12-000-4372', 11)
         spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+    %SpriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
     else
-        spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+        spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit'; 
     end
     addpath(spriteKitPath);
     
     %% Game Stuff 
-    [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] = EmotionGame; 
+    [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, Clownladder, Splash] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
 
     %% Setup experiment 
@@ -45,13 +46,14 @@ function Expe_Emotion(varargin)
     soundDir = '../Stimuli/Emotion_normalized/';
     emotionvoices = classifyFiles(soundDir);
     % options = [];
-
+    countladder = 1;
     % Add the response to the results structure
     % expe.( phase ).condition(itrial) = expe.( phase ).condition(itrial+1);
 
     %% ============= Main loop =============   
     for itrial = 1 : options.(phase).total_ntrials 
         
+         
         if ~simulateSubj
             while starting == 0
                 uiwait();
@@ -61,12 +63,14 @@ function Expe_Emotion(varargin)
 %         CircusAnimal.Location = [CircusAnimal.currentLocation{itrial}];
         
         if itrial == 1
-            Clown.State = 'joyful'; 
-        end
+            Clown.State = 'joyful'; % should be neutral? 
+            Clownladder.State = 'ground';
+            Confetti.State = 'off';
+        end      
         
+        Pool.State = 'pool';
         Buttonup.State = 'off';
         Buttondown.State = 'off';
-        Confetti.State = 'off'; 
         Parrot.State = 'neutral';
         pause(1);
         
@@ -139,7 +143,30 @@ function Expe_Emotion(varargin)
         
         save (options.res_filename, 'options', 'expe', 'resp');
         
+        for iladder = countladder 
+                Clownladder.State = sprintf('clownladder_%d%c',iladder,'a');
+                pause (0.4)
+                Clownladder.State = sprintf('clownladder_%d%c',iladder,'b');
+        end
         
+        countladder = countladder + 1; 
+         
+            if countladder == 9
+               for ijump = 1:11
+                  Clownladder.State = sprintf('clownladder_jump_%d', ijump);
+                  pause(0.2)
+               end
+               for isplash = 1:4 
+               Splash.State = sprintf('splash_%d', isplash);
+               pause(0.2) 
+               end
+               pause(0.6)
+               Splash.State = 'empty'; 
+               Clownladder.State = 'ground';
+               countladder = 0;
+            end
+        
+
         if itrial == options.(phase).total_ntrials
             gameCommands.Scale = 2; 
             gameCommands.State = 'finish';
@@ -188,11 +215,13 @@ function Expe_Emotion(varargin)
             Buttondown.State = 'off';
             
             if response.correct 
-                for k = 3:7
-                    Confetti.State = sprintf('confetti_%d', k);
+                Clown.State = 'joyful';
+                for confettiState = 1:7
+                    Confetti.State = sprintf('confetti_%d', confettiState);
                     pause(0.01)
                 end
-                pause(0.4)
+                pause(0.3)
+                Confetti.State = 'off';
             end
             
             fprintf('Clicked button: %d\n', response.button_clicked);
@@ -201,7 +230,8 @@ function Expe_Emotion(varargin)
             fprintf('Response correct: %d\n\n', response.correct);
             
             uiresume
-       
+            
+            
         else
              if (locClick(1) >= gameCommands.clickL) && (locClick(1) <= gameCommands.clickR) && ...
                 (locClick(2) >= gameCommands.clickD) && (locClick(2) <= gameCommands.clickU)
@@ -210,9 +240,9 @@ function Expe_Emotion(varargin)
              pause (1)
              uiresume();
              end
-            
         end
     end
+   
 
     rmpath(spriteKitPath);
 
