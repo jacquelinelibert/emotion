@@ -53,6 +53,7 @@ function Expe_Emotion(varargin)
     %% ============= Main loop =============   
     for itrial = 1 : options.(phase).total_ntrials 
         
+         
         if ~simulateSubj
             while starting == 0
                 uiwait();
@@ -142,22 +143,30 @@ function Expe_Emotion(varargin)
         
         save (options.res_filename, 'options', 'expe', 'resp');
         
-        countladder = countladder + 1; 
-        if countladder == 8
-           for ijump = 1:11
-               Clownladder.State = sprintf('clownladder_jump_%d', ijump);
-               pause(0.2)
-           end 
-           for isplash = 1:4 
-               Splash.State = sprintf('splash_%d', isplash);
-               pause(0.2) 
-           end
-           pause(0.6)
-           Splash.State = 'empty'; 
-           Clownladder.State = 'ground';
-           countladder = 0;
+        for iladder = countladder 
+                Clownladder.State = sprintf('clownladder_%d%c',iladder,'a');
+                pause (0.4)
+                Clownladder.State = sprintf('clownladder_%d%c',iladder,'b');
         end
         
+        countladder = countladder + 1; 
+         
+            if countladder == 9
+               for ijump = 1:11
+                  Clownladder.State = sprintf('clownladder_jump_%d', ijump);
+                  pause(0.2)
+               end
+               for isplash = 1:4 
+               Splash.State = sprintf('splash_%d', isplash);
+               pause(0.2) 
+               end
+               pause(0.6)
+               Splash.State = 'empty'; 
+               Clownladder.State = 'ground';
+               countladder = 0;
+            end
+        
+
         if itrial == options.(phase).total_ntrials
             gameCommands.Scale = 2; 
             gameCommands.State = 'finish';
@@ -215,19 +224,14 @@ function Expe_Emotion(varargin)
                 Confetti.State = 'off';
             end
             
-            for iladder = countladder 
-                Clownladder.State = sprintf('clownladder_%d%c',iladder,'a');
-                pause (0.4)
-                Clownladder.State = sprintf('clownladder_%d%c',iladder,'b');
-            end
-            
             fprintf('Clicked button: %d\n', response.button_clicked);
             fprintf('Trials: %d\n', itrial);
             fprintf('Response time : %d ms\n', round(response.response_time*1000));
             fprintf('Response correct: %d\n\n', response.correct);
             
             uiresume
-       
+            
+            
         else
              if (locClick(1) >= gameCommands.clickL) && (locClick(1) <= gameCommands.clickR) && ...
                 (locClick(2) >= gameCommands.clickD) && (locClick(2) <= gameCommands.clickU)
@@ -236,9 +240,9 @@ function Expe_Emotion(varargin)
              pause (1)
              uiresume();
              end
-            
         end
     end
+   
 
     rmpath(spriteKitPath);
 

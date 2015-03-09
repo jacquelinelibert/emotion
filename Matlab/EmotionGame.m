@@ -150,7 +150,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
      Clownladder.State = 'empty';
      Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.55]; % screen2(3)/1.26 for sony 1.28 for maclaptop
      let = {'a','b'};  
-     for iladder = 0:7 
+     for iladder = 0:8 
          for ilett=1:2
              spritename = sprintf('clownladder_%d%c',iladder,let{ilett});
              pngFile = ['../Images/' spritename '.png'];
