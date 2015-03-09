@@ -12,7 +12,8 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     G = SpriteKit.Game.instance('Title','Emotion Game', 'Size', screen2(3:4), 'Location', screen2(1:2), 'ShowFPS', false);
 
     bkg = SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/circusbackground_unscaled.png'));
-    addBorders(G);
+%     addBorders(G);
+%     bkg.Depth = -1;
     
     Clown = SpriteKit.Sprite('clown');
     Clown.initState('angry',['../Images/' 'clownemo_1' '.png'], true);
@@ -127,7 +128,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     Pool = SpriteKit.Sprite ('pool');
     Pool.initState('pool','../Images/pool.png', true);
     Pool.initState('empty', ones(1,1,3), true);
-    Pool.Location = [screen2(3)/1.11, screen2(4)/3.8];
+    Pool.Location = [screen2(3)/1.11, screen2(4)/3.8-20];
     Pool.State = 'empty';
     Pool.Depth = 1;
 
@@ -141,16 +142,17 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     end
     Splash.State = 'empty';
     Splash.Location = [screen2(3)/1.06 screen2(4)/2.5];
-    Splash.Depth = 2;
+    Splash.Depth = 6;
       
 %      Clownladder 
      Clownladder = SpriteKit.Sprite ('clownladder');
      Clownladder.initState ('empty', ones(1,1,3), true);
      Clownladder.initState ('ground', '../Images/clownladder_0a.png', true)
      Clownladder.State = 'empty';
-     Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.55];
+     Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.55-20];
+     Clownladder.Depth = 5;
      let = {'a','b'};  
-     for iladder = 0:7 
+     for iladder = 1:8 
          for ilett=1:2
              spritename = sprintf('clownladder_%d%c',iladder,let{ilett});
              pngFile = ['../Images/' spritename '.png'];

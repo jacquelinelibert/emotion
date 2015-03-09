@@ -142,7 +142,15 @@ function Expe_Emotion(varargin)
         save (options.res_filename, 'options', 'expe', 'resp');
         
         
-        if mod(itrial, 8) == 0
+        for iladder = countladder 
+                Clownladder.State = sprintf('clownladder_%d%c',iladder,'a');
+                pause (0.4)
+                Clownladder.State = sprintf('clownladder_%d%c',iladder,'b');
+            end
+        
+        countladder = countladder + 1;
+        
+        if countladder == 8
            for ijump = 1:11
                Clownladder.State = sprintf('clownladder_jump_%d', ijump);
                pause(0.2)
@@ -154,10 +162,7 @@ function Expe_Emotion(varargin)
            pause (0.6)
            Splash.State = 'empty'; 
            Clownladder.State = 'ground';
-        else
-            Clownladder.State = sprintf('clownladder_%d%c',mod(itrial, 8),'a');
-            pause (0.4)
-            Clownladder.State = sprintf('clownladder_%d%c',mod(itrial, 8),'b');
+           countladder = 0;
         end
         
         if itrial == options.(phase).total_ntrials
