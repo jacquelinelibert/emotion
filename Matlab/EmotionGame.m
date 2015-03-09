@@ -1,4 +1,4 @@
-function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, Clownladder] = EmotionGame
+function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, Clownladder, Splash] = EmotionGame
 
     fig = get(groot,'CurrentFigure');
     if ~isempty(fig)
@@ -19,13 +19,16 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     Clown.initState('sad',['../Images/' 'clownemo_2' '.png'], true);
     Clown.initState('joyful',['../Images/' 'clownemo_3' '.png'], true);
     Clown.initState('off', ones(1,1,3), true);
-    for k = 1:5
-        spritename = sprintf('clown_%d',k);
-        pngFile = ['../Images/' spritename '.png']; 
-        Clown.initState(spritename, pngFile, true);
+    for iClown = 1:5
+            spritename = sprintf('clown_%d',iClown);
+            pngFile = ['../Images/' spritename '.png'];
+            Clown.initState(spritename, pngFile, true);
     end
-    Clown.Location = [screen2(3)/5.5, screen2(4)/3.2]; 
+%     Clown.Location = [screen2(3)/5.5, screen2(4)/3.2]; 
+    [HeightClown, WidthClown, ~] = size(imread ('../Images/clown_1.png')); 
+    Clown.Location = [round(G.Size(1) /25 + WidthClown/2), round(HeightClown/2) + G.Size(2)/35]; 
     Clown.State = 'off';
+    Clown.Scale = 1.1;
     Clown.Depth = 1;
     %ratioscreenclown = 0.25 * screen2(4);
     %[HeightClown, ~] = size(imread ('../Images/clownfish_1.png'));
@@ -35,12 +38,12 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     Parrot = SpriteKit.Sprite ('parrot');
     Parrot.initState('neutral', ['../Images/' 'parrot_neutral' '.png'], true);
     Parrot.initState('off', ones(1,1,3), true);
-    for k = 1:2
-        spritename = sprintf('parrot_%d',k);
+    for iParrot = 1:2
+        spritename = sprintf('parrot_%d',iParrot);
         pngFile = ['../Images/' spritename '.png'];
         Parrot.initState(spritename, pngFile, true);
     end
-    Parrot.Location = [screen2(3)/2.4, screen2(4)/1.8];
+    Parrot.Location = [screen2(3)/2.2, screen2(4)/1.8];
     Parrot.State = 'off'; 
     Parrot.Depth = 2;
 %       Buttons 
@@ -89,12 +92,12 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     %      Confetti/Feedback
     Confetti = SpriteKit.Sprite ('confetti');
     Confetti.initState ('off', ones(1,1,3), true);
-    for k = 1:7
-        spritename = sprintf('confetti_%d',k);
+    for iConfetti = 1:7
+        spritename = sprintf('confetti_%d',iConfetti);
         pngFile = ['../Images/' spritename '.png'];
         Confetti.initState(spritename, pngFile, true);
     end
-    Confetti.Location = [screen2(3)/5.5, screen2(4)/3.2];
+    Confetti.Location = [screen2(3)/5.5, screen2(4)/2.75];
     Confetti.State = 'off';
     Confetti.Scale = 0.8; 
     Confetti.Depth = 5;
@@ -126,19 +129,41 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     Pool.initState('empty', ones(1,1,3), true);
     Pool.Location = [screen2(3)/1.11, screen2(4)/3.8];
     Pool.State = 'empty';
+    Pool.Depth = 1;
 
-    
+%      Splash 
+    Splash = SpriteKit.Sprite ('splash');
+    Splash.initState ('empty', ones(1,1,3), true);
+    for isplash = 1:4
+        spritename = sprintf('splash_%d', isplash);
+        pngFile = ['../Images/' spritename '.png']; 
+        Splash.initState (spritename, pngFile,true);
+    end
+    Splash.State = 'empty';
+    Splash.Location = [screen2(3)/1.06 screen2(4)/2.5];
+    Splash.Depth = 2;
+      
 %      Clownladder 
      Clownladder = SpriteKit.Sprite ('clownladder');
      Clownladder.initState ('empty', ones(1,1,3), true);
-     Clownladder.initState ('ground', '../Images/clownladder_0.png', true)
+     Clownladder.initState ('ground', '../Images/clownladder_0a.png', true)
      Clownladder.State = 'empty';
-     Clownladder.Location = [screen2(3)/1.2, screen2(4)/1.39];
+     Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.55];
+     let = {'a','b'};  
+     for iladder = 0:7 
+         for ilett=1:2
+             spritename = sprintf('clownladder_%d%c',iladder,let{ilett});
+             pngFile = ['../Images/' spritename '.png'];
+             Clownladder.initState(spritename, pngFile, true);
+         end
+     end
+     for ijump = 1:11
+          spritename = sprintf('clownladder_jump_%d',ijump);
+          pngFile = ['../Images/' spritename '.png'];
+          Clownladder.initState (spritename, pngFile, true); 
+     end
      
-%     for k = 1:7
-%         spritename = sprintf('clownladder_%d',k);
-%         pngFile = ['../Images/' spritename '.png'];
-%         Confetti.initState(spritename, pngFile, true);
+     
 %     end
 %     Confetti.Location = [screen2(3)/4, screen2(4)-450];
 %     CircusAnimal.Location= [CircusAnimal.currentLocation{trial}];
