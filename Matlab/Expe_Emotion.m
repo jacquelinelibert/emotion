@@ -143,7 +143,6 @@ function Expe_Emotion(varargin)
         
         countladder = countladder + 1; 
         if countladder == 8
-           Confetti.State = 'off'; 
            for ijump = 1:11
                Clownladder.State = sprintf('clownladder_jump_%d', ijump);
                pause(0.2)
@@ -152,6 +151,7 @@ function Expe_Emotion(varargin)
                Splash.State = sprintf('splash_%d', isplash);
                pause(0.2) 
            end
+           pause (0.6)
            Splash.State = 'empty'; 
            Clownladder.State = 'ground';
            countladder = 0;
@@ -210,7 +210,8 @@ function Expe_Emotion(varargin)
                     Confetti.State = sprintf('confetti_%d', confettiState);
                     pause(0.01)
                 end
-                pause(0.2)
+                pause(0.3)
+                Confetti.State = 'off';
             end
             
             for iladder = countladder 
