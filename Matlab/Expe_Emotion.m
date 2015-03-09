@@ -142,7 +142,8 @@ function Expe_Emotion(varargin)
         save (options.res_filename, 'options', 'expe', 'resp');
         
         countladder = countladder + 1; 
-        if countladder == 2
+        if countladder == 8
+           Confetti.State = 'off'; 
            for ijump = 1:11
                Clownladder.State = sprintf('clownladder_jump_%d', ijump);
                pause(0.2)
