@@ -105,7 +105,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
 %      Start and finish     
     gameCommands = SpriteKit.Sprite('controls');
     initState(gameCommands, 'begin','../Images/start1.png' , true);
-    initState(gameCommands, 'finish','../Images/finish.png' , true);
+    initState(gameCommands, 'finish','../Images/finish1.png' , true);
     initState(gameCommands, 'empty', ones(1,1,3), true); % to replace the images, 'none' will give an annoying warning
     gameCommands.State = 'begin';
     gameCommands.Location = [screen2(3)/2, screen2(4)/2];
