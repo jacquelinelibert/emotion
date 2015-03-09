@@ -210,7 +210,7 @@ function Expe_Emotion(varargin)
                     Confetti.State = sprintf('confetti_%d', confettiState);
                     pause(0.01)
                 end
-                pause(0.6)
+                pause(0.2)
             end
             
             for iladder = countladder 
