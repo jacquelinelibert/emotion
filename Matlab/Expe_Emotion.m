@@ -107,7 +107,7 @@ function Expe_Emotion(varargin)
         while true
             Parrot.State = ['parrot_' sprintf('%i', mod(iter, 2) + 1)];
             iter = iter + 1;
-            pause(0.02);
+            pause(0.2);
             if ~isplaying(player)
                 Parrot.State = 'neutral';
                 break;

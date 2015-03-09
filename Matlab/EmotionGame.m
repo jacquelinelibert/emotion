@@ -24,7 +24,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] =
         pngFile = ['../Images/' spritename '.png']; 
         Clown.initState(spritename, pngFile, true);
     end
-    Clown.Location = [screen2(3)/5.5, screen2(4)/3.2]; 
+    Clown.Location = [screen2(3)/5.5, screen2(4)/4.2]; 
     Clown.State = 'off';
     Clown.Depth = 1;
     %ratioscreenclown = 0.25 * screen2(4);
@@ -40,16 +40,16 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] =
         pngFile = ['../Images/' spritename '.png'];
         Parrot.initState(spritename, pngFile, true);
     end
-    Parrot.Location = [screen2(3)/2.4, screen2(4)-350];
+    Parrot.Location = [screen2(3)/2, screen2(4)-450];
     Parrot.State = 'off'; 
-    Parrot.Scale = 0.8;
+    % Parrot.Scale = 0.8;
     Parrot.Depth = 2;
 %       Buttons 
     Buttonup = SpriteKit.Sprite ('buttonup'); 
     Buttonup.initState ('on','../Images/buttonup_1.png', true);
     Buttonup.initState('press', '../Images/buttonuppress_1.png', true)
     Buttonup.initState ('off', ones(1,1,3), true); 
-    Buttonup.Location = [screen2(3)/2, screen2(4)-650];
+    Buttonup.Location = [screen2(3)/1.2, screen2(4)-750];
     Buttonup.State = 'off';
     [HeightButtonup, WidthButtonup] = size(imread ('../Images/buttonup_1.png'));
     % ratioscreenbuttons = 0.2 * screen2(4);
@@ -70,7 +70,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] =
     Buttondown.initState ('on','../Images/buttondown_1.png', true);
     Buttondown.initState ('press', '../Images/buttondownpress_1.png', true);
     Buttondown.initState ('off', ones(1,1,3), true);
-    Buttondown.Location = [screen2(3)/2.5, screen2(4)-650];
+    Buttondown.Location = [screen2(3)/1.5, screen2(4)-750];
     Buttondown.State = 'off';
     [HeightButtondown, WidthButtondown] = size(imread ('../Images/buttondown_1.png'));
     % ratioscreenbuttons = 0.2 * screen2(4);
@@ -94,7 +94,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot] =
         pngFile = ['../Images/' spritename '.png'];
         Confetti.initState(spritename, pngFile, true);
     end
-    Confetti.Location = [screen2(3)/4, screen2(4)-450];
+    Confetti.Location = [screen2(3)/4, screen2(4)-750];
     Confetti.State = 'off';
     Confetti.Scale = 0.8; 
     Confetti.Depth = 5;
