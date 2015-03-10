@@ -12,7 +12,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     G = SpriteKit.Game.instance('Title','Emotion Game', 'Size', screen2(3:4), 'Location', screen2(1:2), 'ShowFPS', false);
 
     bkg = SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/circusbackground_unscaled.png'));
-%     addBorders(G);
+    addBorders(G);
 %     bkg.Depth = -1;
     
     Clown = SpriteKit.Sprite('clown');
@@ -24,14 +24,10 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
             spritename = sprintf('clown_%d',iClown);
             pngFile = ['../Images/' spritename '.png'];
             Clown.initState(spritename, pngFile, true);
-    end
-<<<<<<< HEAD
-    Clown.Location = [screen2(3)/5.5, screen2(4)/4.2]; 
-=======
-%     Clown.Location = [screen2(3)/5.5, screen2(4)/3.2]; 
+    end 
+%   Clown.Location = [screen2(3)/5.5, screen2(4)/3.2]; 
     [HeightClown, WidthClown, ~] = size(imread ('../Images/clown_1.png')); 
     Clown.Location = [round(G.Size(1) /25 + WidthClown/2), round(HeightClown/2) + G.Size(2)/35]; 
->>>>>>> e592f51da563b9917ccb0088bc7f117b397b20bb
     Clown.State = 'off';
     Clown.Scale = 1.1;
     Clown.Depth = 1;
@@ -48,25 +44,16 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
         pngFile = ['../Images/' spritename '.png'];
         Parrot.initState(spritename, pngFile, true);
     end
-<<<<<<< HEAD
-    Parrot.Location = [screen2(3)/2, screen2(4)-450];
-    Parrot.State = 'off'; 
     % Parrot.Scale = 0.8;
-=======
     Parrot.Location = [screen2(3)/2.2, screen2(4)/1.8];
     Parrot.State = 'off'; 
->>>>>>> e592f51da563b9917ccb0088bc7f117b397b20bb
     Parrot.Depth = 2;
 %       Buttons 
     Buttonup = SpriteKit.Sprite ('buttonup'); 
     Buttonup.initState ('on','../Images/buttonup_1.png', true);
     Buttonup.initState('press', '../Images/buttonuppress_1.png', true)
     Buttonup.initState ('off', ones(1,1,3), true); 
-<<<<<<< HEAD
-    Buttonup.Location = [screen2(3)/1.2, screen2(4)-750];
-=======
     Buttonup.Location = [screen2(3)/2.25, screen2(4)/6];
->>>>>>> e592f51da563b9917ccb0088bc7f117b397b20bb
     Buttonup.State = 'off';
     [HeightButtonup, WidthButtonup] = size(imread ('../Images/buttonup_1.png'));
     % ratioscreenbuttons = 0.2 * screen2(4);
@@ -87,11 +74,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     Buttondown.initState ('on','../Images/buttondown_1.png', true);
     Buttondown.initState ('press', '../Images/buttondownpress_1.png', true);
     Buttondown.initState ('off', ones(1,1,3), true);
-<<<<<<< HEAD
-    Buttondown.Location = [screen2(3)/1.5, screen2(4)-750];
-=======
     Buttondown.Location = [screen2(3)/1.75, screen2(4)/6];
->>>>>>> e592f51da563b9917ccb0088bc7f117b397b20bb
     Buttondown.State = 'off';
     [HeightButtondown, WidthButtondown] = size(imread ('../Images/buttondown_1.png'));
     % ratioscreenbuttons = 0.2 * screen2(4);
@@ -116,13 +99,9 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
         pngFile = ['../Images/' spritename '.png'];
         Confetti.initState(spritename, pngFile, true);
     end
-<<<<<<< HEAD
-    Confetti.Location = [screen2(3)/4, screen2(4)-750];
-=======
-    Confetti.Location = [screen2(3)/5.5, screen2(4)/2.75];
->>>>>>> e592f51da563b9917ccb0088bc7f117b397b20bb
+    Confetti.Location = [screen2(3)/2.5, screen2(4)-350];
     Confetti.State = 'off';
-    Confetti.Scale = 0.8; 
+    Confetti.Scale = 1.4; 
     Confetti.Depth = 5;
     
 %      Start and finish     
@@ -150,7 +129,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     Pool = SpriteKit.Sprite ('pool');
     Pool.initState('pool','../Images/pool.png', true);
     Pool.initState('empty', ones(1,1,3), true);
-    Pool.Location = [screen2(3)/1.11, screen2(4)/3.8-20];
+    Pool.Location = [screen2(3)/1.11, screen2(4)/3.7];
     Pool.State = 'empty';
     Pool.Depth = 1;
 
@@ -171,16 +150,10 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
      Clownladder.initState ('empty', ones(1,1,3), true);
      Clownladder.initState ('ground', '../Images/clownladder_0a.png', true)
      Clownladder.State = 'empty';
-<<<<<<< HEAD
-     Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.55-20];
+     Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.40];% screen2(3)/1.26 for sony 1.28 for maclaptop
      Clownladder.Depth = 5;
      let = {'a','b'};  
-     for iladder = 1:8 
-=======
-     Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.55]; % screen2(3)/1.26 for sony 1.28 for maclaptop
-     let = {'a','b'};  
      for iladder = 0:8 
->>>>>>> 95949f67ffa3200bc509aa907fc5f43711276b4a
          for ilett=1:2
              spritename = sprintf('clownladder_%d%c',iladder,let{ilett});
              pngFile = ['../Images/' spritename '.png'];

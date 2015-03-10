@@ -144,8 +144,6 @@ function Expe_Emotion(varargin)
         
         save (options.res_filename, 'options', 'expe', 'resp');
         
-<<<<<<< HEAD
-        
         if mod(itrial, 8) == 0
            for ijump = 1:11
                Clownladder.State = sprintf('clownladder_jump_%d', ijump);
@@ -163,31 +161,6 @@ function Expe_Emotion(varargin)
             pause (0.4)
             Clownladder.State = sprintf('clownladder_%d%c',mod(itrial, 8),'b');
         end
-=======
-        for iladder = countladder 
-                Clownladder.State = sprintf('clownladder_%d%c',iladder,'a');
-                pause (0.4)
-                Clownladder.State = sprintf('clownladder_%d%c',iladder,'b');
-        end
-        
-        countladder = countladder + 1; 
-         
-            if countladder == 9
-               for ijump = 1:11
-                  Clownladder.State = sprintf('clownladder_jump_%d', ijump);
-                  pause(0.2)
-               end
-               for isplash = 1:4 
-               Splash.State = sprintf('splash_%d', isplash);
-               pause(0.2) 
-               end
-               pause(0.6)
-               Splash.State = 'empty'; 
-               Clownladder.State = 'ground';
-               countladder = 0;
-            end
->>>>>>> 95949f67ffa3200bc509aa907fc5f43711276b4a
-        
 
         if itrial == options.(phase).total_ntrials
             gameCommands.Scale = 2; 
@@ -240,17 +213,12 @@ function Expe_Emotion(varargin)
                 Clown.State = 'joyful';
                 for confettiState = 1:7
                     Confetti.State = sprintf('confetti_%d', confettiState);
-                    pause(0.01)
+                    pause(0.2)
                 end
                 pause(0.3)
                 Confetti.State = 'off';
             end
             
-<<<<<<< HEAD
-            
-            
-=======
->>>>>>> 95949f67ffa3200bc509aa907fc5f43711276b4a
             fprintf('Clicked button: %d\n', response.button_clicked);
             fprintf('Trials: %d\n', itrial);
             fprintf('Response time : %d ms\n', round(response.response_time*1000));
