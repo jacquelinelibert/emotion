@@ -1,0 +1,7 @@
+ppID	phase	acc	RT	acc_C	RT_C	acc_I	RT_I 
+jndpilot10	training	0.78	6.13	0.67	10.55	0.83	3.91	
+jndpilot10_2	test	0.88	2.80	0.83	2.56	0.92	3.04	
+jndpilot11	training	0.56	7.32	0.67	9.66	0.50	6.15	
+jndpilot11_2	test	0.79	2.65	0.71	2.64	0.88	2.67	
+jndpilot11_3	test	0.88	2.10	0.79	1.81	0.96	2.39	
+jndpilot9	test	0.69	2.87	0.63	2.33	0.75	3.40	

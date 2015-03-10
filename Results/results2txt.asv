@@ -1,5 +1,5 @@
 fileID = fopen('summaryresp.txt','wt');
-fprintf(fileID,'ppID\tphase\tacc\tRT\tacc_C\tRT_C\tacc_I\tRT_I \n');
+fprintf(fileID,'ppID\tphase\tacc\tRT \n');
 cd('C:\Users\Jacqueline Libert\Documents\BCN\Major Project\Results\Emotion');
 files = dir('*.mat');
 nFiles = length(files);
@@ -29,9 +29,9 @@ for ifiles = 1:nFiles
     fprintf(fileID,'%1.2f\t', sum(acc) / nResponses);
     fprintf(fileID,'%2.2f\t', mean(RT));
     fprintf(fileID,'%1.2f\t', sum(acc(congr == 1)) / sum(congr == 1));
-    fprintf(fileID,'%2.2f\t', mean(RT(congr == 1)));
+    fprintf(fileID,'%2.2f\t', mean(acc(congr == 1)));
     fprintf(fileID,'%1.2f\t', sum(acc(congr == 0)) / sum(congr == 0));
-    fprintf(fileID,'%2.2f\t', mean(RT(congr == 0)));
+    fprintf(fileID,'%2.2f\t', mean(acc(congr == 0)));
     
     %                 fprintf(fileID,'%2.2f ', ...
     %                     resp.(phases{iphase}).conditions(iCond).att(iAttempt).threshold);

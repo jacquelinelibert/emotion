@@ -138,6 +138,7 @@ function Expe_Emotion(varargin)
         
         resp(itrial).response = response;
         resp(itrial).condition = expe.(phase).condition(itrial);
+        resp(itrial).phase = phase;
         
         save (options.res_filename, 'options', 'expe', 'resp');
         
