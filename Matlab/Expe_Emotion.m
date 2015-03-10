@@ -14,8 +14,9 @@ function Expe_Emotion(varargin)
     [~, name] = system('hostname');
     if strncmp(name, '12-000-4372', 11)
         spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+    %SpriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
     else
-        spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+        spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit'; 
     end
     addpath(spriteKitPath);
     
@@ -52,6 +53,7 @@ function Expe_Emotion(varargin)
     %% ============= Main loop =============   
     for itrial = 1 : options.(phase).total_ntrials 
         
+         
         if ~simulateSubj
             while starting == 0
                 uiwait();
@@ -63,12 +65,12 @@ function Expe_Emotion(varargin)
         if itrial == 1
             Clown.State = 'joyful'; % should be neutral? 
             Clownladder.State = 'ground';
+            Confetti.State = 'off';
         end      
         
         Pool.State = 'pool';
         Buttonup.State = 'off';
         Buttondown.State = 'off';
-        Confetti.State = 'off'; 
         Parrot.State = 'neutral';
         pause(1);
         
@@ -142,6 +144,7 @@ function Expe_Emotion(varargin)
         
         save (options.res_filename, 'options', 'expe', 'resp');
         
+<<<<<<< HEAD
         
         if mod(itrial, 8) == 0
            for ijump = 1:11
@@ -160,7 +163,32 @@ function Expe_Emotion(varargin)
             pause (0.4)
             Clownladder.State = sprintf('clownladder_%d%c',mod(itrial, 8),'b');
         end
+=======
+        for iladder = countladder 
+                Clownladder.State = sprintf('clownladder_%d%c',iladder,'a');
+                pause (0.4)
+                Clownladder.State = sprintf('clownladder_%d%c',iladder,'b');
+        end
         
+        countladder = countladder + 1; 
+         
+            if countladder == 9
+               for ijump = 1:11
+                  Clownladder.State = sprintf('clownladder_jump_%d', ijump);
+                  pause(0.2)
+               end
+               for isplash = 1:4 
+               Splash.State = sprintf('splash_%d', isplash);
+               pause(0.2) 
+               end
+               pause(0.6)
+               Splash.State = 'empty'; 
+               Clownladder.State = 'ground';
+               countladder = 0;
+            end
+>>>>>>> 95949f67ffa3200bc509aa907fc5f43711276b4a
+        
+
         if itrial == options.(phase).total_ntrials
             gameCommands.Scale = 2; 
             gameCommands.State = 'finish';
@@ -218,15 +246,19 @@ function Expe_Emotion(varargin)
                 Confetti.State = 'off';
             end
             
+<<<<<<< HEAD
             
             
+=======
+>>>>>>> 95949f67ffa3200bc509aa907fc5f43711276b4a
             fprintf('Clicked button: %d\n', response.button_clicked);
             fprintf('Trials: %d\n', itrial);
             fprintf('Response time : %d ms\n', round(response.response_time*1000));
             fprintf('Response correct: %d\n\n', response.correct);
             
             uiresume
-       
+            
+            
         else
              if (locClick(1) >= gameCommands.clickL) && (locClick(1) <= gameCommands.clickR) && ...
                 (locClick(2) >= gameCommands.clickD) && (locClick(2) <= gameCommands.clickU)
@@ -235,9 +267,9 @@ function Expe_Emotion(varargin)
              pause (1)
              uiresume();
              end
-            
         end
     end
+   
 
     rmpath(spriteKitPath);
 
