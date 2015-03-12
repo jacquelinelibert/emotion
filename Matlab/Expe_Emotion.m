@@ -59,8 +59,6 @@ function Expe_Emotion(varargin)
                 uiwait();
             end
         end    
-%         CircusAnimal.State =sprintf ('circusanimal_%d', ceil(itrial/6));
-%         CircusAnimal.Location = [CircusAnimal.currentLocation{itrial}];
         
         if itrial == 1
             Clown.State = 'joyful'; % should be neutral? 
