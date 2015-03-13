@@ -12,12 +12,12 @@ function Expe_Emotion(varargin)
     end
     
     [~, name] = system('hostname');
-    if strncmp(name, '12-000-4372', 11)
-        spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
-    %SpriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
-    else
-        spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit'; 
-    end
+    %if strncmp(name, '12-000-4372', 11)
+        %spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+    spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+%     else
+%         spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit'; 
+%     end
     addpath(spriteKitPath);
     
     %% Game Stuff 
