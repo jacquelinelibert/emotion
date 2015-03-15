@@ -61,7 +61,7 @@ function Expe_Emotion(varargin)
         end    
         
         if itrial == 1
-            Clown.State = 'joyful'; % should be neutral? 
+            Clown.State = 'clown_1'; % should be neutral? 
             Clownladder.State = 'ground';
             Confetti.State = 'off';
         end      
@@ -72,10 +72,13 @@ function Expe_Emotion(varargin)
         Parrot.State = 'neutral';
         pause(1);
         
-        for clownState = 5:-1:1
+        if itrial ~= 1
+            for clownState = 5:-1:1
             Clown.State = sprintf('clown_%d',clownState);
             pause(0.01)
+            end
         end
+        
         
         Parrot.State = 'parrot_1';
         pause(0.5)
@@ -88,7 +91,7 @@ function Expe_Emotion(varargin)
         
         if isempty(emotionvoices(indexes)) % extend structure with missing files and redo selection
             nLeft = length(emotionvoices);
-%             tmp = emotionvoices(strcmp({emotionvoices.phase}, phase));
+%           tmp = emotionvoices(strcmp({emotionvoices.phase}, phase));
             tmp = classifyFiles(soundDir);
             emotionvoices(nLeft + 1 : nLeft + length(tmp)) = tmp;
             clear tmp
@@ -208,7 +211,7 @@ function Expe_Emotion(varargin)
             Buttondown.State = 'off';
             
             if response.correct 
-                Clown.State = 'joyful';
+                % Clown.State = 'joyful';
                 for confettiState = 1:7
                     Confetti.State = sprintf('confetti_%d', confettiState);
                     pause(0.2)
