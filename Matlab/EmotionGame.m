@@ -19,6 +19,7 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     Clown.initState('angry',['../Images/' 'clownemo_1' '.png'], true);
     Clown.initState('sad',['../Images/' 'clownemo_2' '.png'], true);
     Clown.initState('joyful',['../Images/' 'clownemo_3' '.png'], true);
+    Clown.initState('neutral',['../Images/' 'clown_neutral' '.png'], true);
     Clown.initState('off', ones(1,1,3), true);
     for iClown = 1:5
             spritename = sprintf('clown_%d',iClown);

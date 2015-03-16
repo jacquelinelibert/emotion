@@ -61,7 +61,7 @@ function Expe_Emotion(varargin)
         end    
         
         if itrial == 1
-            Clown.State = 'clown_1'; % should be neutral? 
+            Clown.State = 'neutral'; % should be neutral? 
             Clownladder.State = 'ground';
             Confetti.State = 'off';
         end      
@@ -72,13 +72,10 @@ function Expe_Emotion(varargin)
         Parrot.State = 'neutral';
         pause(1);
         
-        if itrial ~= 1
-            for clownState = 5:-1:1
+        for clownState = 5:-1:1
             Clown.State = sprintf('clown_%d',clownState);
             pause(0.01)
-            end
         end
-        
         
         Parrot.State = 'parrot_1';
         pause(0.5)
@@ -152,9 +149,9 @@ function Expe_Emotion(varargin)
            end 
            for isplash = 1:4 
                Splash.State = sprintf('splash_%d', isplash);
-               pause(0.2) 
+               pause(0.1) 
            end
-           pause (0.6)
+           pause (0.5)
            Splash.State = 'empty'; 
            Clownladder.State = 'ground';
         else
