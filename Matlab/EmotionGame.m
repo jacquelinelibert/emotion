@@ -137,14 +137,26 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
 %      Splash 
     Splash = SpriteKit.Sprite ('splash');
     Splash.initState ('empty', ones(1,1,3), true);
-    for isplash = 1:4
-        spritename = sprintf('splash_%d', isplash);
+    for isplash = 1:3
+        spritename = sprintf('sssplash_%d', isplash);
         pngFile = ['../Images/' spritename '.png']; 
         Splash.initState (spritename, pngFile,true);
     end
     Splash.State = 'empty';
     Splash.Location = [screen2(3)/1.06 screen2(4)/2.5];
     Splash.Depth = 6;
+    
+%       Drops 
+    Drops = SpriteKit.Sprite ('splashdrops');
+    Drops.initState ('empty', ones(1,1,3), true);
+    for idrop = 1:2
+        spritename = sprintf('sssplashdrops_%d', idrop);
+        pngFile = ['../Images/' spritename '.png']; 
+        Drops.initState (spritename, pngFile, true);
+    end
+    Drops.State = 'empty';
+    Drops.Location = [screen2(3)/1.06 screen2(4)/2.5];
+    Drops.Depth = 8;
       
 %      Clownladder 
      Clownladder = SpriteKit.Sprite ('clownladder');

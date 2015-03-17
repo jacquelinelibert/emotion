@@ -22,8 +22,10 @@ function Expe_Emotion(varargin)
             spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
             options.result_path = '/home/paolot/resultsFishy'; 
         else
-            spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit';
-            options.result_path = '~/resultsBeautiful/Emotion'; 
+%           spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
+%           options.result_path = '~/resultsBeautiful/Emotion';
+            spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/Beautiful/lib/SpriteKit';
+            options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
         end
     end
     addpath(spriteKitPath);
@@ -154,10 +156,15 @@ function Expe_Emotion(varargin)
            for ijump = 1:11
                Clownladder.State = sprintf('clownladder_jump_%d', ijump);
                pause(0.2)
-           end 
-           for isplash = 1:4 
-               Splash.State = sprintf('splash_%d', isplash);
-               pause(0.1) 
+           end  
+           for isplash = 1:3 
+               Splash.State = sprintf('sssplash_%d', isplash);
+               pause(0.1)
+               if isplash == 3
+                  for idrop = 1:2
+                      Drops.State = sprintf('sssplashdrops_%d', idrop);
+                  end
+               end
            end
            pause (0.5)
            Splash.State = 'empty'; 
