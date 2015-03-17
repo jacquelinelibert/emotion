@@ -1,6 +1,6 @@
 fileID = fopen('summaryresp.txt','wt');
 fprintf(fileID,'ppID\tphase\tacc\tRT\tacc_C\tRT_C\tacc_I\tRT_I \n');
-cd('C:\Users\Jacqueline Libert\Documents\BCN\Major Project\Results\Emotion');
+cd('C:\Users\Jacqueline Libert\Documents\Github\Results\Emotion');
 files = dir('*.mat');
 nFiles = length(files);
 for ifiles = 1:nFiles
@@ -11,9 +11,9 @@ for ifiles = 1:nFiles
     ppID = files(ifiles).name(startIndex+1 : endIndex-1);
     phase = {'test'};
     nResponses = length(resp);
-    if nResponses == options.training.total_ntrials
-        phase = {'training'};
-    end
+%     if nResponses == options.training.total_ntrials
+%         phase = {'training'};
+%     end
     fprintf(fileID,'%s\t', ppID);
     fprintf(fileID,'%s\t', phase{:});
     acc = zeros(1, nResponses);
