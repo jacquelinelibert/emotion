@@ -12,12 +12,17 @@ function Expe_Emotion(varargin)
     end
     
     [~, name] = system('hostname');
-    %if strncmp(name, '12-000-4372', 11)
-        %spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
-    spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
-%     else
-%         spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit'; 
-%     end
+    testing_machine = 'lt159107.med.rug.nl';
+    if strncmp(name, testing_machine, 19)
+        testing_machine = true;
+        spriteKitPath = '/Users/dbaskent/Experiments/Beautiful/lib/SpriteKit';
+    else
+        if strncmp(name, '12-000-4372', 11)
+            spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+        else
+            spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit';
+        end
+    end
     addpath(spriteKitPath);
     
     %% Game Stuff 
@@ -26,7 +31,7 @@ function Expe_Emotion(varargin)
 
     %% Setup experiment 
     options.subject_name = subjectname;
-    options.result_path = '../Results'; 
+    options.result_path = '~/resultsBeautiful/Emotion'; 
     options.result_prefix = 'emo_';
     res_filename = fullfile(options.result_path, sprintf('%s%s.mat', options.result_prefix, options.subject_name));
     options.res_filename = res_filename;
