@@ -173,6 +173,7 @@ function Expe_Emotion(varargin)
                     Clownladder.State = sprintf('clownladder_jump_%d', ijump);
                     pause(0.2)
                 end
+                Clownladder.State = 'empty';
                 ladder_jump11.State = 'ladder_jump_11';
                 clown_jump11.State = 'clown_jump_11';
                 for isplash = 1:3
