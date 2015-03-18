@@ -1,7 +1,20 @@
 function emotionvoices = classifyFiles(soundDir)
 
 % set path differently? 
-emotionvoices = dir([soundDir '*.wav']);
+% emotionvoices = dir([soundDir '*.wav']);
+
+emotionvoices(1).name = 's2e2n4.wav';
+emotionvoices(2).name = 's2e3n2.wav';
+emotionvoices(3).name = 's2e5n1.wav';
+emotionvoices(4).name = 's4e2n3.wav';
+emotionvoices(5).name = 's4e3n1.wav';
+emotionvoices(6).name = 's4e5n1.wav';
+emotionvoices(7).name = 's5e2n1.wav';
+emotionvoices(8).name = 's5e3n1.wav';
+emotionvoices(9).name = 's5e5n1.wav';
+emotionvoices(10).name = 's6e2n4.wav';
+emotionvoices(11).name = 's6e3n1.wav';
+emotionvoices(12).name = 's6e5n4.wav';
 
 %training = (emotionsounds.name(2)=('1'|'3'|'7'|'8'))
 % speaker = s1:8;

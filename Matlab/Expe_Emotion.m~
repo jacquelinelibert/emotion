@@ -165,10 +165,6 @@ function Expe_Emotion(varargin)
                     ladderStep = ladderStep + 1;
                 end
             else
-                Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'a');
-                pause (0.2)
-                Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'b');
-                pause (0.2)
                 for ijump = 1:10
                     Clownladder.State = sprintf('clownladder_jump_%d', ijump);
                     pause(0.2)
