@@ -152,38 +152,47 @@ function Expe_Emotion(varargin)
         
 %         fprintf('Trial: %d\n', itrial);
         if expe.test.condition(itrial).clownladderNmove
-            for iState = 1 : expe.test.condition(itrial).clownladderNmove
-%                 fprintf('%i', ladderStep)
+            
+            %itrial = 12; % 3, 7, 12
+            if ~ expe.test.condition(itrial).splash
+                
+                for iState = 1 : expe.test.condition(itrial).clownladderNmove
+                    %                 fprintf('%i', ladderStep)
+                    Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'a');
+                    pause (0.2)
+                    Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'b');
+                    pause (0.2)
+                    ladderStep = ladderStep + 1;
+                end
+            else
                 Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'a');
                 pause (0.2)
                 Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'b');
                 pause (0.2)
-                ladderStep = ladderStep + 1;
+                for ijump = 1:10
+                    Clownladder.State = sprintf('clownladder_jump_%d', ijump);
+                    pause(0.2)
+                end
+                ladder_jump11.State = 'ladder_jump_11';
+                clown_jump11.State = 'clown_jump_11';
+                for isplash = 1:3
+                    Splash.State = sprintf('sssplash_%d', isplash);
+                    pause(0.1)
+                end
+                pause (0.5)
+                Splash.State = 'empty';
+                ladder_jump11.State = 'empty';
+                clown_jump11.State = 'empty';
+                Clownladder.State = 'ground';
+                ladderStep = 1;
+                for idrop = 1:2
+                    Drops.State = sprintf('sssplashdrops_%d', idrop);
+                end
             end
             
         end
 
-        if expe.test.condition(itrial).splash
-            for ijump = 1:10
-                Clownladder.State = sprintf('clownladder_jump_%d', ijump);
-                pause(0.2)
-            end
-            ladder_jump11.State = 'ladder_jump_11';
-            clown_jump11.State = 'clown_jump_11';
-            for isplash = 1:3
-                Splash.State = sprintf('sssplash_%d', isplash);
-                pause(0.1)
-            end
-            pause (0.5)
-            Splash.State = 'empty';
-            ladder_jump11.State = 'empty';
-            clown_jump11.State = 'empty';
-            Clownladder.State = 'ground';
-            ladderStep = 1;
-            for idrop = 1:2
-                Drops.State = sprintf('sssplashdrops_%d', idrop);
-            end
-        end
+
         
         if itrial == options.(phase).total_ntrials
             gameCommands.Scale = 2; 

@@ -168,14 +168,14 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
     Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.40];% screen2(3)/1.26 for sony 1.28 for maclaptop
     Clownladder.Depth = 5;
     let = {'a','b'};
-    for iladder = 0:8
+    for iladder = 0:7
         for ilett=1:2
             spritename = sprintf('clownladder_%d%c',iladder,let{ilett});
             pngFile = ['../Images/' spritename '.png'];
             Clownladder.initState(spritename, pngFile, true);
         end
     end
-    for ijump = 1:10
+    for ijump = 1:11
         spritename = sprintf('clownladder_jump_%d',ijump);
         pngFile = ['../Images/' spritename '.png'];
         Clownladder.initState (spritename, pngFile, true);
