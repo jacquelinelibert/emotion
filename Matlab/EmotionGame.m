@@ -136,74 +136,64 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
     Pool.State = 'empty';
     Pool.Depth = 1;
 
-%      Splash 
+    %%      Splash 
     Splash = SpriteKit.Sprite ('splash');
     Splash.initState ('empty', ones(1,1,3), true);
-    for isplash = 1:4
-        spritename = sprintf('splash_%d', isplash);
+    for isplash = 1:3
+        spritename = sprintf('sssplash_%d', isplash);
         pngFile = ['../Images/' spritename '.png']; 
         Splash.initState (spritename, pngFile,true);
     end
     Splash.State = 'empty';
     Splash.Location = [screen2(3)/1.06 screen2(4)/2.5];
     Splash.Depth = 6;
+    
+    %%       Drops 
+    Drops = SpriteKit.Sprite ('splashdrops');
+    Drops.initState ('empty', ones(1,1,3), true);
+    for idrop = 1:2
+        spritename = sprintf('sssplashdrops_%d', idrop);
+        pngFile = ['../Images/' spritename '.png'];
+        Drops.initState (spritename, pngFile, true);
+    end
+    Drops.State = 'empty';
+    Drops.Location = [screen2(3)/1.06 screen2(4)/2.5];
+    Drops.Depth = 8;
       
-%      Clownladder 
-     Clownladder = SpriteKit.Sprite ('clownladder');
-     Clownladder.initState ('empty', ones(1,1,3), true);
-     Clownladder.initState ('ground', '../Images/clownladder_0a.png', true)
-     Clownladder.State = 'empty';
-     Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.40];% screen2(3)/1.26 for sony 1.28 for maclaptop
-     Clownladder.Depth = 5;
-     let = {'a','b'};  
-     for iladder = 0:8 
-         for ilett=1:2
-             spritename = sprintf('clownladder_%d%c',iladder,let{ilett});
-             pngFile = ['../Images/' spritename '.png'];
-             Clownladder.initState(spritename, pngFile, true);
-         end
-     end
-     for ijump = 1:10
-          spritename = sprintf('clownladder_jump_%d',ijump);
-          pngFile = ['../Images/' spritename '.png'];
-          Clownladder.initState (spritename, pngFile, true); 
-     end
-     
-     spritename = sprintf('ladder_jump_11');
-     pngFile = ['../Images/' spritename '.png'];
-     ladder_jump11 = SpriteKit.Sprite ('ladder_jump11');
-     ladder_jump11.initState ('empty', ones(1,1,3), true);
-     ladder_jump11.initState (spritename, pngFile, true);
-     ladder_jump11.Location = [screen2(3)/1.26, screen2(4)/1.40];
-     ladder_jump11.Depth = 5;
-     spritename = sprintf('clown_jump_11');
-     pngFile = ['../Images/' spritename '.png'];     
-     clown_jump11 = SpriteKit.Sprite ('clown_jump11');
-     clown_jump11.initState ('empty', ones(1,1,3), true);
-     clown_jump11.initState (spritename, pngFile, true);
-     clown_jump11.Location = [screen2(3)/1.26, screen2(4)/1.40];
-     clown_jump11.Depth = 7;
-     
-%     end
-%     Confetti.Location = [screen2(3)/4, screen2(4)-450];
-%     CircusAnimal.Location= [CircusAnimal.currentLocation{trial}];
-%     CircusAnimal.State = 'empty';
-%     ratioscreencircusanimal = 0.3 * screen2(4);
-%     [HeightCircusAnimal, ~] = size (imread ('../Images/circusanimal_1.png'));
-%     CircusAnimal.Scale = ratioscreencircusanimal/HeightCircusAnimal;
-
-%     PositionPlaces = [1.7, 1.5; 1.6, 1.4; 1.5, 1.3; 1.4, 1.2; 1.3, 1.1; 1.1, 1.5];
-%     addprop(CircusAnimal, 'currentLocation');
-%     trial = 0;
-%     
-%     for animal = 1:8 % in case of 8 different images (different image for every 6 trials)
-%         spritename = sprintf ('circusanimal_%d', animal);
-%         pngFile = ['../Images/' spritename '.png'];
-%         initState (CircusAnimal, ['circusanimal_' int2str(animal)] , pngFile, true);
-%         for positions = 1:6
-%             trial = trial +1;
-%             CircusAnimal.currentLocation{trial}=[screen2(3)/PositionPlaces(positions,1), screen2(4)/PositionPlaces(positions, 1+1)];
-%         end
-%     end
-%     
+    %%  Clownladder 
+    Clownladder = SpriteKit.Sprite ('clownladder');
+    Clownladder.initState ('empty', ones(1,1,3), true);
+    Clownladder.initState ('ground', '../Images/clownladder_0a.png', true)
+    Clownladder.State = 'empty';
+    Clownladder.Location = [screen2(3)/1.26, screen2(4)/1.40];% screen2(3)/1.26 for sony 1.28 for maclaptop
+    Clownladder.Depth = 5;
+    let = {'a','b'};
+    for iladder = 0:8
+        for ilett=1:2
+            spritename = sprintf('clownladder_%d%c',iladder,let{ilett});
+            pngFile = ['../Images/' spritename '.png'];
+            Clownladder.initState(spritename, pngFile, true);
+        end
+    end
+    for ijump = 1:10
+        spritename = sprintf('clownladder_jump_%d',ijump);
+        pngFile = ['../Images/' spritename '.png'];
+        Clownladder.initState (spritename, pngFile, true);
+    end
+    
+    %% last splash
+    spritename = sprintf('ladder_jump_11');
+    pngFile = ['../Images/' spritename '.png'];
+    ladder_jump11 = SpriteKit.Sprite ('ladder_jump11');
+    ladder_jump11.initState ('empty', ones(1,1,3), true);
+    ladder_jump11.initState (spritename, pngFile, true);
+    ladder_jump11.Location = [screen2(3)/1.26, screen2(4)/1.40];
+    ladder_jump11.Depth = 5;
+    spritename = sprintf('clown_jump_11');
+    pngFile = ['../Images/' spritename '.png'];
+    clown_jump11 = SpriteKit.Sprite ('clown_jump11');
+    clown_jump11.initState ('empty', ones(1,1,3), true);
+    clown_jump11.initState (spritename, pngFile, true);
+    clown_jump11.Location = [screen2(3)/1.26, screen2(4)/1.40];
+    clown_jump11.Depth = 7;
 end
