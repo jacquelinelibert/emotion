@@ -29,7 +29,7 @@ function Expe_Emotion(varargin)
     
     %% Game Stuff 
     [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, ...
-        Clownladder, Splash, ladder_jump11, clown_jump11] = EmotionGame; 
+        Clownladder, Splash,clown_jump11] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
 
     %% Setup experiment 
@@ -148,10 +148,10 @@ function Expe_Emotion(varargin)
         
         save(options.res_filename, 'options', 'expe', 'resp');
         
-%         fprintf('Trial: %d\n', itrial);
+        fprintf('Trial: %d\n', itrial);
         if expe.test.condition(itrial).clownladderNmove
             for iState = 1 : expe.test.condition(itrial).clownladderNmove
-%                 fprintf('%i', ladderStep)
+                fprintf('%i', ladderStep)
                 Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'a');
                 pause (0.2)
                 Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'b');
@@ -165,8 +165,8 @@ function Expe_Emotion(varargin)
                 Clownladder.State = sprintf('clownladder_jump_%d', ijump);
                 pause(0.2)
             end
-            ladder_jump11.State = 'ladder_jump_11';
-            clown_jump11.State = 'clown_jump_11';
+            ladder_jump11.State = 'ladder_jump11';
+            clown_jump11.State = 'clown_jump11';
             for isplash = 1:4
                 Splash.State = sprintf('splash_%d', isplash);
                 pause(0.1)

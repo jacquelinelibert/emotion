@@ -1,4 +1,5 @@
-function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, Clownladder, Splash] = EmotionGame
+function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
+    Pool, Clownladder, Splash, ladder_jump11, clown_jump11] = EmotionGame
 
     fig = get(groot,'CurrentFigure');
     if ~isempty(fig)
@@ -21,13 +22,14 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
     Clown.initState('joyful',['../Images/' 'clownemo_3' '.png'], true);
     Clown.initState('neutral',['../Images/' 'clown_neutral' '.png'], true);
     Clown.initState('off', ones(1,1,3), true);
+    % SpotLight
     for iClown = 1:5
-            spritename = sprintf('clown_%d',iClown);
-            pngFile = ['../Images/' spritename '.png'];
-            Clown.initState(spritename, pngFile, true);
-    end 
+        spritename = sprintf('clownSpotLight_%d',iClown);
+        pngFile = ['../Images/' spritename '.png'];
+        Clown.initState(spritename, pngFile, true);
+    end
 %   Clown.Location = [screen2(3)/5.5, screen2(4)/3.2]; 
-    [HeightClown, WidthClown, ~] = size(imread ('../Images/clown_1.png')); 
+    [HeightClown, WidthClown, ~] = size(imread ('../Images/clownSpotLight_1.png')); 
     Clown.Location = [round(G.Size(1) /25 + WidthClown/2), round(HeightClown/2) + G.Size(2)/35]; 
     Clown.State = 'off';
     Clown.Scale = 1.1;
@@ -161,12 +163,26 @@ function [G, bkg, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, P
              Clownladder.initState(spritename, pngFile, true);
          end
      end
-     for ijump = 1:11
+     for ijump = 1:10
           spritename = sprintf('clownladder_jump_%d',ijump);
           pngFile = ['../Images/' spritename '.png'];
           Clownladder.initState (spritename, pngFile, true); 
      end
      
+     spritename = sprintf('ladder_jump_11');
+     pngFile = ['../Images/' spritename '.png'];
+     ladder_jump11 = SpriteKit.Sprite ('ladder_jump11');
+     ladder_jump11.initState ('empty', ones(1,1,3), true);
+     ladder_jump11.initState (spritename, pngFile, true);
+     ladder_jump11.Location = [screen2(3)/1.26, screen2(4)/1.40];
+     ladder_jump11.Depth = 5;
+     spritename = sprintf('clown_jump_11');
+     pngFile = ['../Images/' spritename '.png'];     
+     clown_jump11 = SpriteKit.Sprite ('clown_jump11');
+     clown_jump11.initState ('empty', ones(1,1,3), true);
+     clown_jump11.initState (spritename, pngFile, true);
+     clown_jump11.Location = [screen2(3)/1.26, screen2(4)/1.40];
+     clown_jump11.Depth = 7;
      
 %     end
 %     Confetti.Location = [screen2(3)/4, screen2(4)-450];
