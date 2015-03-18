@@ -160,9 +160,7 @@ function Expe_Emotion(varargin)
                 pause (0.2)
                 ladderStep = ladderStep + 1;
             end
-            for idrop = 1:2
-                Drops.State = sprintf('sssplashdrops_%d', idrop);
-            end
+            
         end
 
         if expe.test.condition(itrial).splash
@@ -182,7 +180,9 @@ function Expe_Emotion(varargin)
             clown_jump11.State = 'empty';
             Clownladder.State = 'ground';
             ladderStep = 1;
-            
+            for idrop = 1:2
+                Drops.State = sprintf('sssplashdrops_%d', idrop);
+            end
         end
         
         if itrial == options.(phase).total_ntrials
