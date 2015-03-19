@@ -246,6 +246,13 @@ function Expe_Emotion(varargin)
                     pause(0.2)
                 end
                 pause(0.3)
+            else
+                for shakeshake = 1:2
+                    for parrotshake = 1:3
+                    Parrot.State = sprintf('parrot_shake_%d', parrotshake);
+                    pause(0.2)
+                    end
+                end
                 Confetti.State = 'off';
             end
             

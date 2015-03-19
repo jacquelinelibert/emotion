@@ -47,6 +47,11 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
         pngFile = ['../Images/' spritename '.png'];
         Parrot.initState(spritename, pngFile, true);
     end
+    for iparrotshake = 1:3
+        spritename = sprintf('parrot_shake_%d', iparrotshake);
+        pngFile = ['../Images/' spritename '.png'];
+        Parrot.initState(spritename, pngFile, true);
+    end
     % Parrot.Scale = 0.8;
     Parrot.Location = [screen2(3)/2.2, screen2(4)/1.8];
     Parrot.State = 'off'; 
