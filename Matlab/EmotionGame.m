@@ -145,7 +145,7 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
         Splash.initState (spritename, pngFile,true);
     end
     Splash.State = 'empty';
-    Splash.Location = [screen2(3)/1.06 screen2(4)/2.5];
+    Splash.Location = [screen2(3)/1.2 screen2(4)/2.5];
     Splash.Depth = 6;
     
     %%       Drops 
@@ -157,7 +157,7 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
         Drops.initState (spritename, pngFile, true);
     end
     Drops.State = 'empty';
-    Drops.Location = [screen2(3)/1.06 screen2(4)/2.5];
+    Drops.Location = [screen2(3)/2.2 screen2(4)/1.9];
     Drops.Depth = 8;
       
     %%  Clownladder 
