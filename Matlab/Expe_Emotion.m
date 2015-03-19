@@ -122,6 +122,7 @@ function Expe_Emotion(varargin)
                 break;
             end
         end
+             
         
         % SpotLight
         for clownState = 1:5
@@ -133,7 +134,7 @@ function Expe_Emotion(varargin)
         pause(0.6)
         Buttonup.State = 'on';
         Buttondown.State = 'on';
-
+        
         tic();
         if ~simulateSubj
             uiwait();
@@ -188,6 +189,7 @@ function Expe_Emotion(varargin)
                 ladderStep = 1;
                 for idrop = 1:2
                     Drops.State = sprintf('sssplashdrops_%d', idrop);
+                    pause(0.2)
                 end
             end
             
