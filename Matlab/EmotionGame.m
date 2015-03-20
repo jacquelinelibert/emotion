@@ -1,5 +1,5 @@
 function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
-    Pool, Clownladder, Splash, ladder_jump11, clown_jump11] = EmotionGame
+    Pool, Clownladder, Splash, ladder_jump11, clown_jump11, Drops] = EmotionGame
 
     fig = get(groot,'CurrentFigure');
     if ~isempty(fig)
@@ -12,7 +12,7 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
 
     G = SpriteKit.Game.instance('Title','Emotion Game', 'Size', screen2(3:4), 'Location', screen2(1:2), 'ShowFPS', false);
 
-    bkg = SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/circusbackground_unscaled.png'));
+    SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/circusbackground_unscaled.png'));
     addBorders(G);
 %     bkg.Depth = -1;
     

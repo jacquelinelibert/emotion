@@ -31,7 +31,7 @@ function Expe_Emotion(varargin)
     
     %% Game Stuff 
     [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, ...
-        Clownladder, Splash, ladder_jump11, clown_jump11] = EmotionGame; 
+        Clownladder, Splash, ladder_jump11, clown_jump11, Drops] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
 
     %% Setup experiment 
@@ -122,7 +122,8 @@ function Expe_Emotion(varargin)
                 break;
             end
         end
-             
+        
+        
         
         % SpotLight
         for clownState = 1:5
@@ -191,6 +192,7 @@ function Expe_Emotion(varargin)
                     Drops.State = sprintf('sssplashdrops_%d', idrop);
                     pause(0.2)
                 end
+                Drops.State = 'empty';
             end
             
         end
