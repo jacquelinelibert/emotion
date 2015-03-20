@@ -92,14 +92,14 @@ function [expe, options] = building_conditions(options)
     % find congruent trials
     idxTr = 1 : options.test.total_ntrials;
     congTr = idxTr([test.condition.congruent] == 1);
-    congTr = randperm(length(congTr));
+    congTr = randperm(1 : length(congTr));
     % find incongruent trials
     incoTr = idxTr([test.condition.congruent] == 0);
-    incoTr = randperm(length(incoTr));
+    incoTr = randperm(1 : length(incoTr));
     % make vector with 4 random congruent and 5 random incongruent trial
     nCongr = 4;
     nIncon = 5;
-    training.condition = test.condition([congTr(1:nCongr), incoTr(1:nIncon)]);
+    training.condition = test.condition([congrTr(1:nCongr), incoTr(1:nIncon)]);
     
     
     options.facerecognition.faces = options.facerecognition.faces(randperm(options.facerecognition.total_ntrials));
