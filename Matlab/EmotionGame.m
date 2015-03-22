@@ -1,5 +1,5 @@
 function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
-    Pool, Clownladder, Splash, ladder_jump11, clown_jump11] = EmotionGame
+    Pool, Clownladder, Splash, ladder_jump11, clown_jump11, Drops] = EmotionGame
 
     fig = get(groot,'CurrentFigure');
     if ~isempty(fig)
@@ -12,7 +12,7 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
 
     G = SpriteKit.Game.instance('Title','Emotion Game', 'Size', screen2(3:4), 'Location', screen2(1:2), 'ShowFPS', false);
 
-    bkg = SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/circusbackground_unscaled.png'));
+    SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/circusbackground_unscaled.png'));
     addBorders(G);
 %     bkg.Depth = -1;
     
@@ -140,7 +140,15 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
     Pool.Location = [screen2(3)/1.11, screen2(4)/3.7];
     Pool.State = 'empty';
     Pool.Depth = 1;
-
+    clickArea = size(imread('../Images/pool.png'));
+    addprop(Pool, 'clickL');
+    addprop(Pool, 'clickR');
+    addprop(Pool, 'clickD');
+    addprop(Pool, 'clickU');
+    Pool.clickL = round(Pool.Location(1) - round(clickArea(1)/2));
+    Pool.clickR = round(Pool.Location(1) + round(clickArea(1)/2));
+    Pool.clickD = round(Pool.Location(2) - round(clickArea(2)/4));
+    Pool.clickU = round(Pool.Location(2) + round(clickArea(2)/4));
     %%      Splash 
     Splash = SpriteKit.Sprite ('splash');
     Splash.initState ('empty', ones(1,1,3), true);

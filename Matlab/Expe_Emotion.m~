@@ -22,11 +22,6 @@ function Expe_Emotion(varargin)
             spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
             options.result_path = '/home/paolot/results/Emotion'; 
         else
-<<<<<<< HEAD
-%           spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
-%           options.result_path = '~/resultsBeautiful/Emotion';
-=======
->>>>>>> 362537f444a9ee60931368492785e3eba3aad2a3
             spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
             options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
         end
@@ -37,7 +32,6 @@ function Expe_Emotion(varargin)
     [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, ...
         Clownladder, Splash, ladder_jump11, clown_jump11, Drops] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
-    G.onKeyPress = @keypressfcn;
 
     %% Setup experiment 
     options.subject_name = subjectname;
@@ -156,7 +150,6 @@ function Expe_Emotion(varargin)
                     Confetti.State = sprintf('confetti_%d', confettiState);
                     pause(0.2)
                 end
-                Confetti.State = 'off';
                 pause(0.3)
             else
                 for shakeshake = 1:2
@@ -165,7 +158,7 @@ function Expe_Emotion(varargin)
                         pause(0.2)
                     end
                 end
-%                 
+%                 Confetti.State = 'off';
             end
             
             fprintf('Clicked button: %d\n', response.button_clicked);
@@ -266,12 +259,10 @@ function Expe_Emotion(varargin)
             
             if (locClick(1) >= Pool.clickL) && (locClick(1) <= Pool.clickR) && ...
                     (locClick(2) >= Pool.clickD) && (locClick(2) <= Pool.clickU)
-                uiresume;
+%                 uiresume;
                 tic();
             end
-            
-%             uiresume;
-            
+            uiresume;
         else
              if (locClick(1) >= gameCommands.clickL) && (locClick(1) <= gameCommands.clickR) && ...
                 (locClick(2) >= gameCommands.clickD) && (locClick(2) <= gameCommands.clickU)
@@ -283,13 +274,7 @@ function Expe_Emotion(varargin)
         end
     end
    
-    function keypressfcn(~,e)
-        if strcmp(e.Key, 'control') % OR 'space'
-            uiresume;
-            tic();
-        end
-    end
-  
+
     rmpath(spriteKitPath);
 
 end

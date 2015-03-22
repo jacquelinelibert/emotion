@@ -21,7 +21,7 @@ if strcmp(phase, 'training')
 %     training = (emotionsounds.name(2)=('1'|'3'|'7'|'8'))
 %     training = {emotionsounds(~cellfun('isempty', ...
 %         regexp({emotionsounds.name}, '^s[1378]'))).name};
-    emotionvoices = emotionsounds(~cellfun('isempty', regexp({emotionsounds.name}, '^s[1378]')));
+    training = emotionsounds(~cellfun('isempty', regexp({emotionsounds.name}, '^s[1378]')));
     
 end    
 %training = (emotionsounds.name(2)=('1'|'3'|'7'|'8'))
