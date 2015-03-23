@@ -22,11 +22,8 @@ function Expe_Emotion(varargin)
             spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
             options.result_path = '/home/paolot/results/Emotion'; 
         else
-<<<<<<< HEAD
 %           spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
 %           options.result_path = '~/resultsBeautiful/Emotion';
-=======
->>>>>>> 362537f444a9ee60931368492785e3eba3aad2a3
             spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
             options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
         end
@@ -127,7 +124,7 @@ function Expe_Emotion(varargin)
                 break;
             end
         end
-              
+        tic();      
         if simulateSubj
             response.timestamp = now;
             response.response_time = toc;
