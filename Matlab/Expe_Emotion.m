@@ -128,6 +128,7 @@ function Expe_Emotion(varargin)
             response.response_time = toc;
             response.button_clicked = randi([0, 1], 1, 1); % default in case they click somewhere else
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
+            response.filename = emotionvoices(indexes(toPlay)).name;
         else
             uiwait
             for clownState = 1:5
@@ -144,6 +145,8 @@ function Expe_Emotion(varargin)
             pause(0.5)
             Buttonup.State = 'off';
             Buttondown.State = 'off';
+            
+            response.filename = emotionvoices(indexes(toPlay)).name;
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
             if response.correct 
                 % Clown.State = 'joyful';
