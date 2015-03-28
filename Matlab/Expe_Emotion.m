@@ -22,7 +22,7 @@ function Expe_Emotion(varargin)
             options.result_path = '/home/paolot/results/Emotion'; 
         else
            spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
-           options.result_path = 'Users/laptopKno/Github/Results/Emotion/Result files';
+           options.result_path = '/Users/laptopKno/Github/Results/Emotion/Result files';
 %            spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/Beautiful/lib/SpriteKit';
 %            options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
         end
