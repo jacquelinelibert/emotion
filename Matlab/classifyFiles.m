@@ -1,4 +1,4 @@
-function emotionvoices = classifyFiles(soundDir)
+function emotionvoices = classifyFiles(soundDir, phase)
 
 % set path differently? 
 % emotionvoices = dir([soundDir '*.wav']);
@@ -16,6 +16,14 @@ emotionvoices(10).name = 's6e2n4.wav';
 emotionvoices(11).name = 's6e3n1.wav';
 emotionvoices(12).name = 's6e5n4.wav';
 
+if strcmp(phase, 'training')
+    emotionsounds = dir([soundDir '*.wav']);
+%     training = (emotionsounds.name(2)=('1'|'3'|'7'|'8'))
+%     training = {emotionsounds(~cellfun('isempty', ...
+%         regexp({emotionsounds.name}, '^s[1378]'))).name};
+    emotionvoices = emotionsounds(~cellfun('isempty', regexp({emotionsounds.name}, '^s[1378]')));
+    
+end    
 %training = (emotionsounds.name(2)=('1'|'3'|'7'|'8'))
 % speaker = s1:8;
 

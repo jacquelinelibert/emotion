@@ -9,8 +9,6 @@ function [expe, options] = building_conditions(options)
     options.facerecognition.retry = 0 ; 
     options.facerecognition.total_ntrials = 6; 
 
-    options.training.total_ntrials = 9; 
-
     % -------- Stimuli options 
     options.facerecognition.faces = {'angry1', 'sad1', 'joyful1','angry2', 'sad2', 'joyful2'}; % PT: we need to distinguish the faces
     options.test.voices = {'angry', 'sad', 'joyful'};
@@ -68,6 +66,7 @@ function [expe, options] = building_conditions(options)
     options.test.total_ntrials = length(condition);
     test.condition = condition(randperm(options.test.total_ntrials));
     
+    
 %     nSplashes = 3;
     [test.condition.splash] = deal(0);
 %     [test.condition(options.test.total_ntrials / nSplashes : options.test.total_ntrials / nSplashes : options.test.total_ntrials).splash] = deal(1);
@@ -88,7 +87,21 @@ function [expe, options] = building_conditions(options)
         end
     end
     
-    training.condition = condition(randperm(options.training.total_ntrials));
+    % training.condition = condition(randperm(options.training.total_ntrials));
+    options.training.total_ntrials = 9; 
+    % find congruent trials
+    idxTr = 1 : options.test.total_ntrials;
+    congTr = idxTr([test.condition.congruent] == 1);
+    congTr = randperm(length(congTr));
+    % find incongruent trials
+    incoTr = idxTr([test.condition.congruent] == 0);
+    incoTr = randperm(length(incoTr));
+    % make vector with 4 random congruent and 5 random incongruent trial
+    nCongr = 4;
+    nIncon = 5;
+    training.condition = test.condition([congTr(1:nCongr), incoTr(1:nIncon)]);
+    
+    
     options.facerecognition.faces = options.facerecognition.faces(randperm(options.facerecognition.total_ntrials));
     
     %======== Create the expe structure 

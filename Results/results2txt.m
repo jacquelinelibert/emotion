@@ -1,6 +1,6 @@
 fileID = fopen('summaryresp.txt','wt');
 fprintf(fileID,'ppID\tphase\tacc\tRT\tacc_C\tRT_C\tacc_I\tRT_I \n');
-cd('C:\Users\Jacqueline Libert\Documents\Github\Results\Emotion');
+cd('C:\Users\Jacqueline Libert\Documents\Github\Results\Emotion\Result files');
 files = dir('*.mat');
 nFiles = length(files);
 for ifiles = 1:nFiles

@@ -9,6 +9,7 @@ function Expe_Emotion(varargin)
         simulateSubj = true;
         subjectname = 'random';
         phase = 'test';
+        phase = 'training';
     end
     
     [~, name] = system('hostname');
@@ -21,18 +22,24 @@ function Expe_Emotion(varargin)
             spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
             options.result_path = '/home/paolot/results/Emotion'; 
         else
+<<<<<<< HEAD
            spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
            options.result_path = '/Users/laptopKno/Github/Results/Emotion/Result files';
 %            spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/Beautiful/lib/SpriteKit';
 %            options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
+=======
+            spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+            options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
+>>>>>>> 0d34f81622e41c1cff02a862d7e257425ca81263
         end
     end
     addpath(spriteKitPath);
     
     %% Game Stuff 
     [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, ...
-        Clownladder, Splash, ladder_jump11, clown_jump11] = EmotionGame; 
+        Clownladder, Splash, ladder_jump11, clown_jump11, Drops] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
+    G.onKeyPress = @keypressfcn;
 
     %% Setup experiment 
     options.subject_name = subjectname;
@@ -52,11 +59,11 @@ function Expe_Emotion(varargin)
     starting = 0;   
 
     soundDir = '../Stimuli/Emotion_normalized/';
-    emotionvoices = classifyFiles(soundDir);
+    emotionvoices = classifyFiles(soundDir, phase);
     ladderStep = 1;
     %% ============= Main loop =============   
     for itrial = 1 : options.(phase).total_ntrials 
-        
+        pauseGame = false;
             
         if ~simulateSubj
             while starting == 0
@@ -122,27 +129,54 @@ function Expe_Emotion(varargin)
                 break;
             end
         end
-             
-        
-        % SpotLight
-        for clownState = 1:5
-            Clown.State = sprintf('clownSpotLight_%d',clownState);
-            pause(0.01)
-        end
-        
-        Clown.State = expe.(phase).condition(itrial).facelabel;
-        pause(0.6)
-        Buttonup.State = 'on';
-        Buttondown.State = 'on';
-        
-        tic();
-        if ~simulateSubj
-            uiwait();
-        else
+              
+        if simulateSubj
             response.timestamp = now;
             response.response_time = toc;
             response.button_clicked = randi([0, 1], 1, 1); % default in case they click somewhere else
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
+            response.filename = emotionvoices(indexes(toPlay)).name;
+        else
+            uiwait
+            for clownState = 1:5
+                Clown.State = sprintf('clownSpotLight_%d',clownState);
+                pause(0.01)
+            end
+            Clown.State = expe.(phase).condition(itrial).facelabel;
+            pause(0.6)
+            
+            Buttonup.State = 'on';
+            Buttondown.State = 'on';
+%             tic();
+            uiwait();
+            pause(0.5)
+            Buttonup.State = 'off';
+            Buttondown.State = 'off';
+            
+            response.filename = emotionvoices(indexes(toPlay)).name;
+            response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
+            if response.correct 
+                % Clown.State = 'joyful';
+                for confettiState = 1:7
+                    Confetti.State = sprintf('confetti_%d', confettiState);
+                    pause(0.2)
+                end
+                Confetti.State = 'off';
+                pause(0.3)
+            else
+                for shakeshake = 1:2
+                    for parrotshake = 1:3
+                        Parrot.State = sprintf('parrot_shake_%d', parrotshake);
+                        pause(0.2)
+                    end
+                end
+%                 
+            end
+            
+            fprintf('Clicked button: %d\n', response.button_clicked);
+            fprintf('Response time : %d ms\n', round(response.response_time*1000));
+            fprintf('Response correct: %d\n\n', response.correct);
+            
         end
         
         resp(itrial).response = response;
@@ -191,6 +225,7 @@ function Expe_Emotion(varargin)
                     Drops.State = sprintf('sssplashdrops_%d', idrop);
                     pause(0.2)
                 end
+                Drops.State = 'empty';
             end
             
         end
@@ -224,37 +259,23 @@ function Expe_Emotion(varargin)
                     (locClick(2) >= Buttonup.clickD) && (locClick(2) <= Buttonup.clickU)
                 Buttonup.State = 'press';
                 response.button_clicked = 1;
+                uiresume
             end
             
             if (locClick(1) >= Buttondown.clickL) && (locClick(1) <= Buttondown.clickR) && ...
                     (locClick(2) >= Buttondown.clickD) && (locClick(2) <= Buttondown.clickU)
                 Buttondown.State = 'press'; 
                 response.button_clicked = 0;
+                uiresume
             end
             
-            pause(0.5)
-            
-            response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
-            
-            Buttonup.State = 'off';
-            Buttondown.State = 'off';
-            
-            if response.correct 
-                % Clown.State = 'joyful';
-                for confettiState = 1:7
-                    Confetti.State = sprintf('confetti_%d', confettiState);
-                    pause(0.2)
-                end
-                pause(0.3)
-                Confetti.State = 'off';
+            if (locClick(1) >= Pool.clickL) && (locClick(1) <= Pool.clickR) && ...
+                    (locClick(2) >= Pool.clickD) && (locClick(2) <= Pool.clickU)
+                uiresume;
+                tic();
             end
             
-            fprintf('Clicked button: %d\n', response.button_clicked);
-            fprintf('Response time : %d ms\n', round(response.response_time*1000));
-            fprintf('Response correct: %d\n\n', response.correct);
-            
-            uiresume
-            
+%             uiresume;
             
         else
              if (locClick(1) >= gameCommands.clickL) && (locClick(1) <= gameCommands.clickR) && ...
@@ -267,7 +288,13 @@ function Expe_Emotion(varargin)
         end
     end
    
-
+    function keypressfcn(~,e)
+        if strcmp(e.Key, 'control') % OR 'space'
+            uiresume;
+            tic();
+        end
+    end
+  
     rmpath(spriteKitPath);
 
 end
