@@ -9,7 +9,7 @@ function Expe_Emotion(varargin)
         simulateSubj = true;
         subjectname = 'random';
         phase = 'test';
-        phase = 'training';
+%         phase = 'training';
     end
     
     [~, name] = system('hostname');
