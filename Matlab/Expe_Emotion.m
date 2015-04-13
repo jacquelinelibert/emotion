@@ -22,10 +22,20 @@ function Expe_Emotion(varargin)
             spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
             options.result_path = '/home/paolot/results/Emotion'; 
         else
+<<<<<<< HEAD
 %           spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
 %           options.result_path = '~/resultsBeautiful/Emotion';
+=======
+<<<<<<< HEAD
+           spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
+           options.result_path = '/Users/laptopKno/Github/Results/Emotion/Result files';
+%            spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/Beautiful/lib/SpriteKit';
+%            options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
+=======
+>>>>>>> 023de8ed36b804ee490223209205feaf7daa41a8
             spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
             options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
+>>>>>>> 0d34f81622e41c1cff02a862d7e257425ca81263
         end
     end
     addpath(spriteKitPath);
@@ -131,6 +141,7 @@ function Expe_Emotion(varargin)
             response.response_time = toc;
             response.button_clicked = randi([0, 1], 1, 1); % default in case they click somewhere else
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
+            response.filename = emotionvoices(indexes(toPlay)).name;
         else
             uiwait
             for clownState = 1:5
@@ -147,6 +158,10 @@ function Expe_Emotion(varargin)
             pause(0.5)
             Buttonup.State = 'off';
             Buttondown.State = 'off';
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 023de8ed36b804ee490223209205feaf7daa41a8
             response.filename = emotionvoices(indexes(toPlay)).name;
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
             if response.correct 
