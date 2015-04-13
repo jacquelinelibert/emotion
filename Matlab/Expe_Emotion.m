@@ -32,7 +32,7 @@ function Expe_Emotion(varargin)
     
     %% Game Stuff 
     [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, ...
-        Clownladder, Splash, ladder_jump11, clown_jump11, Drops] = EmotionGame; 
+        Clownladder, Splash, ladder_jump11, clown_jump11, Drops, ExtraClown] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
     G.onKeyPress = @keypressfcn;
 
@@ -71,6 +71,7 @@ function Expe_Emotion(varargin)
         if itrial == 1
             Clown.State = 'neutral'; % should be neutral? 
             Clownladder.State = 'ground';
+            ExtraClown.State = 'on';
             Confetti.State = 'off';
         end      
         
@@ -146,6 +147,7 @@ function Expe_Emotion(varargin)
             pause(0.5)
             Buttonup.State = 'off';
             Buttondown.State = 'off';
+            response.filename = emotionvoices(indexes(toPlay)).name;
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
             if response.correct 
                 % Clown.State = 'joyful';
@@ -211,6 +213,7 @@ function Expe_Emotion(varargin)
                 Splash.State = 'empty';
                 ladder_jump11.State = 'empty';
                 clown_jump11.State = 'empty';
+                ExtraClown.State = 'empty';
                 Clownladder.State = 'ground';
                 ladderStep = 1;
                 for idrop = 1:2

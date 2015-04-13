@@ -1,5 +1,5 @@
 function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
-    Pool, Clownladder, Splash, ladder_jump11, clown_jump11, Drops] = EmotionGame
+    Pool, Clownladder, Splash, ladder_jump11, clown_jump11, Drops, ExtraClown] = EmotionGame
 
     fig = get(groot,'CurrentFigure');
     if ~isempty(fig)
@@ -193,6 +193,14 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
         pngFile = ['../Images/' spritename '.png'];
         Clownladder.initState (spritename, pngFile, true);
     end
+    
+    ExtraClown = SpriteKit.Sprite ('extraclown');
+    ExtraClown.initState ('empty', ones(1,1,3), true);
+    ExtraClown.initState ('on', '../Images/clown_back.png', true);
+    ExtraClown.State = 'empty';
+    ExtraClown.Location = [screen2(3)/1.6, screen2(4)/1.7];
+    ExtraClown.Scale = 0.8;
+    ExtraClown.Depth = 2;
     
     %% last splash
     spritename = sprintf('ladder_jump_11');
