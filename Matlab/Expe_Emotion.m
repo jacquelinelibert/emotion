@@ -9,7 +9,7 @@ function Expe_Emotion(varargin)
         simulateSubj = true;
         subjectname = 'random';
         phase = 'test';
-        phase = 'training';
+%         phase = 'training';
     end
     
     [~, name] = system('hostname');
@@ -24,17 +24,15 @@ function Expe_Emotion(varargin)
         else
             spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
             options.result_path = '/Users/laptopKno/Github/Results/Emotion/Result files';
-%            spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/Beautiful/lib/SpriteKit';
-%            options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
-            spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
-            options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
+%             spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+%             options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
         end
     end
     addpath(spriteKitPath);
     
     %% Game Stuff 
     [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, ...
-        Clownladder, Splash, ladder_jump11, clown_jump11, Drops] = EmotionGame; 
+        Clownladder, Splash, ladder_jump11, clown_jump11, Drops, ExtraClown] = EmotionGame; 
     G.onMouseRelease = @buttondownfcn;
     G.onKeyPress = @keypressfcn;
 
@@ -73,6 +71,7 @@ function Expe_Emotion(varargin)
         if itrial == 1
             Clown.State = 'neutral'; % should be neutral? 
             Clownladder.State = 'ground';
+            ExtraClown.State = 'on';
             Confetti.State = 'off';
         end      
         
@@ -126,7 +125,7 @@ function Expe_Emotion(varargin)
                 break;
             end
         end
-              
+        tic();      
         if simulateSubj
             response.timestamp = now;
             response.response_time = toc;
@@ -149,7 +148,10 @@ function Expe_Emotion(varargin)
             pause(0.5)
             Buttonup.State = 'off';
             Buttondown.State = 'off';
+<<<<<<< HEAD
+=======
             
+>>>>>>> 023de8ed36b804ee490223209205feaf7daa41a8
             response.filename = emotionvoices(indexes(toPlay)).name;
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
             if response.correct 
@@ -216,6 +218,7 @@ function Expe_Emotion(varargin)
                 Splash.State = 'empty';
                 ladder_jump11.State = 'empty';
                 clown_jump11.State = 'empty';
+                ExtraClown.State = 'empty';
                 Clownladder.State = 'ground';
                 ladderStep = 1;
                 for idrop = 1:2
