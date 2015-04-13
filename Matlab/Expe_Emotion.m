@@ -22,15 +22,12 @@ function Expe_Emotion(varargin)
             spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
             options.result_path = '/home/paolot/results/Emotion'; 
         else
-<<<<<<< HEAD
-           spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
-           options.result_path = '/Users/laptopKno/Github/Results/Emotion/Result files';
+            spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
+            options.result_path = '/Users/laptopKno/Github/Results/Emotion/Result files';
 %            spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/Beautiful/lib/SpriteKit';
 %            options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
-=======
             spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
             options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
->>>>>>> 0d34f81622e41c1cff02a862d7e257425ca81263
         end
     end
     addpath(spriteKitPath);
