@@ -148,10 +148,7 @@ function Expe_Emotion(varargin)
             pause(0.5)
             Buttonup.State = 'off';
             Buttondown.State = 'off';
-<<<<<<< HEAD
-=======
-            
->>>>>>> 023de8ed36b804ee490223209205feaf7daa41a8
+
             response.filename = emotionvoices(indexes(toPlay)).name;
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
             if response.correct 
