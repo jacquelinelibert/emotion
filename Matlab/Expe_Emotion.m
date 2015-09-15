@@ -22,10 +22,10 @@ function Expe_Emotion(varargin)
             spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
             options.result_path = '/home/paolot/results/Emotion'; 
         else
-            spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
-            options.result_path = '/Users/laptopKno/Github/Results/Emotion/Result files';
-%             spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
-%             options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Result files';
+            %spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/SpriteKit';
+            %options.result_path = '/Users/laptopKno/Github/Results/Emotion/Result files';
+             spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+             options.result_path = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Emotion/Data';
         end
     end
     addpath(spriteKitPath);
@@ -68,14 +68,22 @@ function Expe_Emotion(varargin)
             gameCommands.State = 'empty';
         end
         
+        
         if itrial == 1
-            Clown.State = 'neutral'; % should be neutral? 
-            Clownladder.State = 'ground';
-            ExtraClown.State = 'on';
+            Clown.State = 'neutral';  
+            if (strcmp(phase, 'training'))
+                Clownladder.State = 'empty';
+                 ExtraClown.State = 'empty';
+                 Pool.State = 'empty'; 
+            else
+                Clownladder.State = 'ground';
+                Pool.State = 'pool'; 
+                ExtraClown.State = 'on';
+            end
             Confetti.State = 'off';
         end      
         
-        Pool.State = 'pool';
+        
         Buttonup.State = 'off';
         Buttondown.State = 'off';
         Parrot.State = 'neutral';
@@ -152,7 +160,6 @@ function Expe_Emotion(varargin)
             response.filename = emotionvoices(indexes(toPlay)).name;
             response.correct = (response.button_clicked == expe.(phase).condition(itrial).congruent);
             if response.correct 
-                % Clown.State = 'joyful';
                 for confettiState = 1:7
                     Confetti.State = sprintf('confetti_%d', confettiState);
                     pause(0.2)
@@ -181,11 +188,12 @@ function Expe_Emotion(varargin)
         
         save(options.res_filename, 'options', 'expe', 'resp');
         
-%         fprintf('Trial: %d\n', itrial);
+%       fprintf('Trial: %d\n', itrial);
         if expe.test.condition(itrial).clownladderNmove
             
             %itrial = 12; % 3, 7, 12
-            if ~ expe.test.condition(itrial).splash
+            if (strcmp(phase, 'test'))
+                if ~ expe.test.condition(itrial).splash
                 
                 for iState = 1 : expe.test.condition(itrial).clownladderNmove
                     %                 fprintf('%i', ladderStep)
@@ -196,47 +204,45 @@ function Expe_Emotion(varargin)
                     ladderStep = ladderStep + 1;
                 end
             else
-                Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'a');
-                pause (0.2)
-                Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'b');
-                pause (0.2)
-                for ijump = 1:10
-                    Clownladder.State = sprintf('clownladder_jump_%d', ijump);
-                    pause(0.2)
+                
+                    Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'a');
+                    pause (0.2)
+                    Clownladder.State = sprintf('clownladder_%d%c',mod(ladderStep, 9),'b');
+                    pause (0.2)
+                    for ijump = 1:10
+                        Clownladder.State = sprintf('clownladder_jump_%d', ijump);
+                        pause(0.2)
+                    end
+                    Clownladder.State = 'empty';
+                    ladder_jump11.State = 'ladder_jump_11';
+                    clown_jump11.State = 'clown_jump_11';
+                    for isplash = 1:3
+                        Splash.State = sprintf('sssplash_%d', isplash);
+                        pause(0.1)
+                    end
+                    pause (0.5)
+                    Splash.State = 'empty';
+                    ladder_jump11.State = 'empty';
+                    clown_jump11.State = 'empty';
+                    ExtraClown.State = 'empty';
+                    Clownladder.State = 'ground';
+                    ladderStep = 1;
+                    for idrop = 1:2
+                        Drops.State = sprintf('sssplashdrops_%d', idrop);
+                        pause(0.2)
+                    end
+                    Drops.State = 'empty';
                 end
-                Clownladder.State = 'empty';
-                ladder_jump11.State = 'ladder_jump_11';
-                clown_jump11.State = 'clown_jump_11';
-                for isplash = 1:3
-                    Splash.State = sprintf('sssplash_%d', isplash);
-                    pause(0.1)
-                end
-                pause (0.5)
-                Splash.State = 'empty';
-                ladder_jump11.State = 'empty';
-                clown_jump11.State = 'empty';
-                ExtraClown.State = 'empty';
-                Clownladder.State = 'ground';
-                ladderStep = 1;
-                for idrop = 1:2
-                    Drops.State = sprintf('sssplashdrops_%d', idrop);
-                    pause(0.2)
-                end
-                Drops.State = 'empty';
             end
-            
         end
-
-
         
         if itrial == options.(phase).total_ntrials
-            gameCommands.Scale = 2; 
+            gameCommands.Scale = 4; 
             gameCommands.State = 'finish';
         end
         
         % remove just played file from list of possible sound files
         emotionvoices(indexes(toPlay)) = [];
-
         
     end
 
@@ -252,6 +258,8 @@ function Expe_Emotion(varargin)
             response.response_time = toc();
             response.button_clicked = 0; % default in case they click somewhere else
             
+          if Clown.State == expe.(phase).condition(itrial).facelabel
+          
             if (locClick(1) >= Buttonup.clickL) && (locClick(1) <= Buttonup.clickR) && ...
                     (locClick(2) >= Buttonup.clickD) && (locClick(2) <= Buttonup.clickU)
                 Buttonup.State = 'press';
@@ -271,7 +279,8 @@ function Expe_Emotion(varargin)
                 uiresume;
                 tic();
             end
-            
+          end
+          
 %             uiresume;
             
         else

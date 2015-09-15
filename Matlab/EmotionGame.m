@@ -59,7 +59,7 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
 %       Buttons 
     Buttonup = SpriteKit.Sprite ('buttonup'); 
     Buttonup.initState ('on','../Images/button_right.png', true);
-    Buttonup.initState('press', '../Images/buttonuppress_1.png', true)
+    Buttonup.initState('press', '../Images/button_right_pressed.png', true)
     Buttonup.initState ('off', ones(1,1,3), true); 
     Buttonup.Location = [screen2(3)/2.25, screen2(4)/6];
     Buttonup.State = 'off';
@@ -80,7 +80,7 @@ function [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, ...
     
     Buttondown = SpriteKit.Sprite ('buttondown'); 
     Buttondown.initState ('on','../Images/button_wrong.png', true);
-    Buttondown.initState ('press', '../Images/buttondownpress_1.png', true);
+    Buttondown.initState ('press', '../Images/button_wrong_pressed.png', true);
     Buttondown.initState ('off', ones(1,1,3), true);
     Buttondown.Location = [screen2(3)/1.75, screen2(4)/6];
     Buttondown.State = 'off';
