@@ -5,11 +5,22 @@ function Expe_Emotion(varargin)
         simulateSubj = false;
         subjectname = varargin{1};
         phase = varargin{2};
+        cue = varargin{3};
     else
         simulateSubj = true;
         subjectname = 'random';
         phase = 'test';
-%         phase = 'training';
+        cue = 'intact';
+%       phase = 'training';
+    end
+    
+    switch cue
+        case 'normalized'
+            soundDir = '../Stimuli/Emotion_normalized/';
+        case 'intact'
+            soundDir = '../Stimuli/Emotion/';
+        otherwise
+            error('cue option does not exists')
     end
     
     [~, name] = system('hostname');
@@ -50,10 +61,17 @@ function Expe_Emotion(varargin)
         options.res_filename = res_filename;
     end
     [expe, options] = building_conditions(options);
-
+    if exist(options.res_filename, 'file') && exist('results', 'var')
+        load(options.res_filename)
+        i_condition = length(results.( phase ).conditions) + 1;
+        n_attempt = length(results.( phase ).conditions(i_condition).att) + 1;
+    else
+        i_condition = 1;
+        n_attempt = 1;
+    end
+    
     starting = 0;   
-
-    soundDir = '../Stimuli/Emotion_normalized/';
+    
     emotionvoices = classifyFiles(soundDir, phase);
     ladderStep = 1;
     %% ============= Main loop =============   
@@ -107,7 +125,7 @@ function Expe_Emotion(varargin)
         if isempty(emotionvoices(indexes)) % extend structure with missing files and redo selection
             nLeft = length(emotionvoices);
 %           tmp = emotionvoices(strcmp({emotionvoices.phase}, phase));
-            tmp = classifyFiles(soundDir);
+            tmp = classifyFiles(soundDir, phase);
             emotionvoices(nLeft + 1 : nLeft + length(tmp)) = tmp;
             clear tmp
             emotionVect = strcmp({emotionvoices.emotion}, expe.(phase).condition(itrial).voicelabel);
@@ -181,12 +199,11 @@ function Expe_Emotion(varargin)
             fprintf('Response correct: %d\n\n', response.correct);
             
         end
+        response.condition = cue;
+        results.(phase).conditions(i_condition).att(n_attempt).responses(itrial) = response;
+%         results.(phase).conditions(i_condition).att(n_attempt).responses(itrial).condition = cue;
         
-        resp(itrial).response = response;
-        resp(itrial).condition = expe.(phase).condition(itrial);
-        resp(itrial).phase = phase;
-        
-        save(options.res_filename, 'options', 'expe', 'resp');
+        save(options.res_filename, 'options', 'expe', 'results');
         
 %       fprintf('Trial: %d\n', itrial);
         if expe.test.condition(itrial).clownladderNmove
