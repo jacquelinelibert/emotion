@@ -34,11 +34,22 @@ function Expe_Emotion(varargin)
     options.home = getHome;
     
     pathsToAdd{2} = [options.home '/gitStuff/Beautiful/lib/SpriteKit'];
+    options.result_path = [options.home '/results/Emotion'];
+
+    % append the results structure if one already exists
+    
+    
     addpath(pathsToAdd{2});
     
+    %% Game Stuff 
+    [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, ...
+        Clownladder, Splash, ladder_jump11, clown_jump11, Drops, ExtraClown] = EmotionGame; 
+    G.onMouseRelease = @buttondownfcn;
+    G.onKeyPress = @keypressfcn;
+
     %% Setup experiment 
     options.subject_name = subjectname;
-    options.result_path = [options.home '/results/Emotion'];
+    
     options.result_prefix = 'emo_';
     res_filename = fullfile(options.result_path, sprintf('%s%s.mat', options.result_prefix, options.subject_name));
     options.res_filename = res_filename;
@@ -49,15 +60,6 @@ function Expe_Emotion(varargin)
         res_filename = fullfile(options.result_path, sprintf('%s%s.mat', options.result_prefix, options.subject_name));
         options.res_filename = res_filename;
     end
-    
-    
-    %% Game Stuff 
-    [G, Clown, Buttonup, Buttondown, gameCommands, Confetti, Parrot, Pool, ...
-        Clownladder, Splash, ladder_jump11, clown_jump11, Drops, ExtraClown] = EmotionGame; 
-    G.onMouseRelease = @buttondownfcn;
-    G.onKeyPress = @keypressfcn;
-
-    
     [expe, options] = building_conditions(options);
     if exist(options.res_filename, 'file') && exist('results', 'var')
         load(options.res_filename)
