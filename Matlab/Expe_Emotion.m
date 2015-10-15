@@ -3,13 +3,20 @@ function Expe_Emotion(varargin)
 
     if nargin > 0
         simulateSubj = false;
-        subjectname = varargin{1};
-        phase = varargin{2};
-        cue = varargin{3};
+        if strcmp(varargin{1}, 'simulate')
+            simulateSubj = true;
+            subjectname = varargin{2};
+            phase = varargin{3};
+            cue = varargin{4};
+        else
+            subjectname = varargin{1};
+            phase = varargin{2};
+            cue = varargin{3};
+        end
     else
         simulateSubj = true;
         subjectname = 'random';
-        phase = {'test', 'training'};
+        phase = {'test', 'training', 'facerecognition'};
         phase = phase{randi(2)};
         cue = {'intact', 'normalized'};
         cue = cue{randi(2)};
@@ -43,11 +50,10 @@ function Expe_Emotion(varargin)
     res_filename = fullfile(options.result_path, sprintf('%s%s.mat', options.result_prefix, options.subject_name));
     options.res_filename = res_filename;
 
-    if exist(res_filename, 'file')
-        filesList = dir(fullfile(options.result_path, sprintf('*%s*.mat', options.subject_name)));
-        options.subject_name = sprintf('%s_%d', options.subject_name, length(filesList)+1);
-        res_filename = fullfile(options.result_path, sprintf('%s%s.mat', options.result_prefix, options.subject_name));
-        options.res_filename = res_filename;
+    if exist(options.res_filename, 'file')
+        load(options.res_filename);
+    else
+        [expe, options] = building_conditions(options);
     end
     
     
@@ -57,17 +63,6 @@ function Expe_Emotion(varargin)
     G.onMouseRelease = @buttondownfcn;
     G.onKeyPress = @keypressfcn;
 
-    
-    [expe, options] = building_conditions(options);
-    if exist(options.res_filename, 'file') && exist('results', 'var')
-        load(options.res_filename)
-        i_condition = length(results.( phase ).conditions) + 1;
-        n_attempt = length(results.( phase ).conditions(i_condition).att) + 1;
-    else
-        i_condition = 1;
-        n_attempt = 1;
-    end
-    
     starting = 0;   
     
     emotionvoices = classifyFiles(soundDir, phase);
@@ -200,8 +195,8 @@ function Expe_Emotion(varargin)
         
         response.condition = expe.(phase).condition(itrial);
         response.cue = cue;
-        results.(phase).conditions(i_condition).att(n_attempt).responses(itrial) = response;
-%         results.(phase).conditions(i_condition).att(n_attempt).responses(itrial).condition = cue;
+        results.(phase).(cue).responses(itrial) = response;
+
         
         save(options.res_filename, 'options', 'expe', 'results');
         
@@ -256,6 +251,8 @@ function Expe_Emotion(varargin)
         if itrial == options.(phase).total_ntrials
             gameCommands.Scale = 4; 
             gameCommands.State = 'finish';
+            pause(2);
+            close(gcf)
         end
         
         % remove just played file from list of possible sound files
